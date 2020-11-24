@@ -2,9 +2,11 @@
 
 return [
 
+    'events'                        => 'Eventos',
+
     'main_navigation'               => 'Navegação Principal',
     'blog'                          => 'Blog',
-    'pages'                         => 'Página',
+    'pages'                         => 'Páginas',
     'account_settings'              => 'Configurações da Conta',
     'profile'                       => 'Perfil',
     'change_password'               => 'Mudar Senha',

@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 3',
+    'title' => 'WeEvent',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -45,7 +45,8 @@ return [
     |
     */
 
-    'logo' => '<b>Admin</b>LTE',
+    // 'logo' => '<b>Admin</b>LTE',
+    'logo' => '<b>We</b>Event',
     'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -126,7 +127,7 @@ return [
     'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => '',
-    'classes_sidebar' => 'sidebar-dark-primary elevation-4',
+    'classes_sidebar' => 'sidebar-dark-primary elevation-1',
     'classes_sidebar_nav' => '',
     'classes_topnav' => 'navbar-white navbar-light',
     'classes_topnav_nav' => 'navbar-expand',
@@ -236,83 +237,88 @@ return [
             'search' => true,
             'topnav' => true,
         ],
+        // [
+        //     'text' => 'blog',
+        //     'url'  => 'admin/blog',
+        //     'can'  => 'manage-blog',
+        // ],
         [
-            'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
+            'text'        => 'events',
+            'url'         => 'admin/events',
+            'icon'        => 'far fa-calendar-alt',
         ],
-        [
-            'text'        => 'pages',
-            'url'         => 'admin/pages',
-            'icon'        => 'far fa-fw fa-file',
-            'label'       => 4,
-            'label_color' => 'success',
-        ],
+        // [
+        //     'text'        => 'pages',
+        //     'url'         => 'admin/pages',
+        //     'icon'        => 'far fa-fw fa-file',
+        //     'label'       => 4,
+        //     'label_color' => 'success',
+        // ],
         ['header' => 'account_settings'],
         [
             'text' => 'profile',
             'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-user',
         ],
-        [
-            'text' => 'change_password',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
-        [
-            'text'    => 'multilevel',
-            'icon'    => 'fas fa-fw fa-share',
-            'submenu' => [
-                [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                ],
-                [
-                    'text'    => 'level_one',
-                    'url'     => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text'    => 'level_two',
-                            'url'     => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                ],
-            ],
-        ],
-        ['header' => 'labels'],
-        [
-            'text'       => 'important',
-            'icon_color' => 'red',
-            'url'        => '#',
-        ],
-        [
-            'text'       => 'warning',
-            'icon_color' => 'yellow',
-            'url'        => '#',
-        ],
-        [
-            'text'       => 'information',
-            'icon_color' => 'cyan',
-            'url'        => '#',
-        ],
+        // [
+        //     'text' => 'change_password',
+        //     'url'  => 'admin/settings',
+        //     'icon' => 'fas fa-fw fa-lock',
+        // ],
+        // [
+        //     'text'    => 'multilevel',
+        //     'icon'    => 'fas fa-fw fa-share',
+        //     'submenu' => [
+        //         [
+        //             'text' => 'level_one',
+        //             'url'  => '#',
+        //         ],
+        //         [
+        //             'text'    => 'level_one',
+        //             'url'     => '#',
+        //             'submenu' => [
+        //                 [
+        //                     'text' => 'level_two',
+        //                     'url'  => '#',
+        //                 ],
+        //                 [
+        //                     'text'    => 'level_two',
+        //                     'url'     => '#',
+        //                     'submenu' => [
+        //                         [
+        //                             'text' => 'level_three',
+        //                             'url'  => '#',
+        //                         ],
+        //                         [
+        //                             'text' => 'level_three',
+        //                             'url'  => '#',
+        //                         ],
+        //                     ],
+        //                 ],
+        //             ],
+        //         ],
+        //         [
+        //             'text' => 'level_one',
+        //             'url'  => '#',
+        //         ],
+        //     ],
+        // ],
+        // ['header' => 'labels'],
+        // [
+        //     'text'       => 'important',
+        //     'icon_color' => 'red',
+        //     'url'        => '#',
+        // ],
+        // [
+        //     'text'       => 'warning',
+        //     'icon_color' => 'yellow',
+        //     'url'        => '#',
+        // ],
+        // [
+        //     'text'       => 'information',
+        //     'icon_color' => 'cyan',
+        //     'url'        => '#',
+        // ],
     ],
 
     /*
@@ -367,6 +373,26 @@ return [
                     'type' => 'css',
                     'asset' => false,
                     'location' => '//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css',
+                ],
+            ],
+        ],
+        'Datatables.Responsive' => [
+            'active' => false,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/responsive/2.2.6/js/responsive.bootstrap4.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/responsive/2.2.6/css/responsive.bootstrap4.min.css',
                 ],
             ],
         ],
@@ -433,5 +459,114 @@ return [
     | https://github.com/jeroennoten/Laravel-AdminLTE/#93-livewire
     */
 
-    'livewire' => false,
+    'livewire' => true,
+
+    /**
+     * This package contains Laravel Blade Components for
+     * AdminLTE 3 free Boostrap admin panel UI Kit.
+     * Since, blade components are only available after Laravel 7,
+     * thus only laravel 7.x+ can use this package.
+     */
+
+    [
+        'name' => 'AdminLTE-Components-DG',
+        'active' => true,
+        'files' => [
+            [
+                'type' => 'css',
+                'asset' => true,
+                'location' => '/vendor/dg-plugins/select2/css/select2.min.css',
+            ],
+            [
+                'type' => 'css',
+                'asset' => true,
+                'location' => '/vendor/dg-plugins/select2/css/select2-bootstrap4.min.css',
+            ],
+            [
+                'type' => 'js',
+                'asset' => true,
+                'location' => '/vendor/dg-plugins/select2/js/select2.min.js',
+            ],
+            [
+                'type' => 'js',
+                'asset' => true,
+                'location' => '/vendor/dg-plugins/bs-custom-file-input/bs-custom-file-input.min.js',
+            ],
+            [
+                'type' => 'js',
+                'asset' => true,
+                'location' => '/vendor/dg-plugins/moment/moment.min.js',
+            ],
+            [
+                'type' => 'css',
+                'asset' => true,
+                'location' => '/vendor/dg-plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css',
+            ],
+            [
+                'type' => 'js',
+                'asset' => true,
+                'location' => '/vendor/dg-plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js',
+            ],
+            [
+                'type' => 'css',
+                'asset' => true,
+                'location' => '/vendor/dg-plugins/summernote/summernote-bs4.css',
+            ],
+            [
+                'type' => 'js',
+                'asset' => true,
+                'location' => '/vendor/dg-plugins/summernote/summernote-bs4.min.js',
+            ],
+            [
+                'type' => 'css',
+                'asset' => true,
+                'location' => '/vendor/dg-plugins/bs-select/css/bootstrap-select.min.css',
+            ],
+            [
+                'type' => 'js',
+                'asset' => true,
+                'location' => '/vendor/dg-plugins/bs-select/js/bootstrap-select.min.js',
+            ],
+            [
+                'type' => 'css',
+                'asset' => true,
+                'location' => '/vendor/dg-plugins/bootstrap-tags-input/bootstrap-tagsinput.css',
+            ],
+            [
+                'type' => 'js',
+                'asset' => true,
+                'location' => '/vendor/dg-plugins/bootstrap-tags-input/bootstrap-tagsinput.js',
+            ],
+            [
+                'type' => 'js',
+                'asset' => true,
+                'location' => '/vendor/dg-plugins/daterangepicker/daterangepicker.js',
+            ],
+            [
+                'type' => 'css',
+                'asset' => true,
+                'location' => '/vendor/dg-plugins/daterangepicker/daterangepicker.css',
+            ],
+            [
+                'type' => 'css',
+                'asset' => true,
+                'location' => '/vendor/dg-plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css',
+            ],
+            [
+                'type' => 'js',
+                'asset' => true,
+                'location' => '/vendor/dg-plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js',
+            ],
+            [
+                'type' => 'css',
+                'asset' => true,
+                'location' => '/vendor/dg-plugins/bootstrap-slider/css/bootstrap-slider.min.css',
+            ],
+            [
+                'type' => 'js',
+                'asset' => true,
+                'location' => '/vendor/dg-plugins/bootstrap-slider/js/bootstrap-slider.min.js',
+            ],
+        ],
+    ],
 ];

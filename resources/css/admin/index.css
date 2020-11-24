@@ -1,0 +1,43 @@
+body>div>nav>ul.navbar-nav.ml-auto>li.nav-item.dropdown.user-menu>a>img {
+    box-shadow: none !important;
+    width: 30px;
+    height: 30px;
+}
+
+.locale-dropdown {
+    top: -2px;
+}
+
+body {
+    font-family: Muli, "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.content-header {
+    color: #616161;
+}
+
+.content-header h1 {
+    font-size: 20px;
+}
+
+label:not(.form-check-label):not(.custom-file-label) {
+    font-weight: 300;
+    /* margin-bottom: 5px; */
+}
+
+.form-control {
+    /* font-size: 1.2rem; */
+}
+
+.form-group input {
+    padding-left: 4px;
+    outline: 0;
+    border-radius: 0;
+    border-width: 0 0 1px;
+    border-color: #e0e1e2 !important;
+}
+
+input:focus {
+    border-width: 0 0 2px;
+    border-color: #7fd3ec !important;
+}

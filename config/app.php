@@ -231,4 +231,12 @@ return [
 
     ],
 
+    'languages' => [
+        'en',
+        'pt_BR',
+        'es'
+    ],
+
+    'host_app_client_url' => env('HOST_APP_CLIENT_URL', 'https://live.weevent.online'),
+
 ];

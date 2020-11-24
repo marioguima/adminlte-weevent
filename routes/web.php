@@ -15,8 +15,31 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+
+Route::get('/upload', UploadPhoto::class)->name('upload.photo.user');
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
+
+Route::get('setlocale/{locale}',function($lang){
+    \Session::put('locale',$lang);
+    return redirect()->back();
+});
+
+Route::group(['middleware'=> 'language'],function ()
+{
+    Route::get('/', function () {
+        return view('index');
+    });
+
+    //Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    //    return view('admin.dashboard');
+    //})->name('dashboard');
+
+    Route::middleware(['auth:sanctum', 'verified'])->group(function(){
+        Route::resource('admin/events', EventController::class)->names('event');
+    });
+
+});

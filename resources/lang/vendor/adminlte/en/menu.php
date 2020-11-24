@@ -2,6 +2,8 @@
 
 return [
 
+    'events'                        => 'Events',
+
     'main_navigation'               => 'MAIN NAVIGATION',
     'blog'                          => 'Blog',
     'pages'                         => 'Pages',

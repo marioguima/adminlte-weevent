@@ -19,4 +19,15 @@ return [
     'password_reset_message'      => 'Recuperar senha',
     'reset_password'              => 'Recuperar senha',
     'send_password_reset_link'    => 'Enviar link de recuperação de senha',
+    'verify_message'              => 'Sua conta precisa de verificação',
+    'verify_email_sent'           => 'Um novo link de verificação foi enviado para seu e-mail.',
+    'verify_check_your_email'     => 'Antes de continuar, procure em seu e-mail um link de verificação.',
+    'verify_if_not_recieved'      => 'Se você não recebeu o email',
+    'verify_request_another'      => 'clique aqui para solicitar outro',
+    'confirm_password_message'    => 'Por favor confirme sua senha para continuar.',
+    'languages'                   => [
+        'en'                      => 'Inglês',
+        'pt_BR'                   => 'Português',
+        'es'                      => 'Espanhol',
+    ],
 ];

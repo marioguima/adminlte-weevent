@@ -2,6 +2,8 @@
 
 return [
 
+    'events'                        => 'Eventos',
+
     'main_navigation'               => 'MENU PRINCIPAL',
     'blog'                          => 'Blog',
     'pages'                         => 'Páginas',
