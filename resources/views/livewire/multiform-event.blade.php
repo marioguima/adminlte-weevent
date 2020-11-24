@@ -1,4 +1,6 @@
 @push('css')
+{{-- site de onde peguei o efeito de passar sobre as fotos --}}
+{{-- https://codepen.io/dig-lopes/pen/WLVGda?editors=1100 --}}
 <style>
   .label-step {
     color: #9e9e9e;
@@ -396,22 +398,17 @@
                   </style>
 
                   <div class="form-group">
-                    <input type="file" wire:model="photo" value="" accept=".jpg, .jpeg, .gif, .png">
                     <div class="center">
                       <div class="form-input">
-                        <div id="profile-img-{{$loop->index}}-preview" class="d-flex justify-content-center preview image-hover" onclick="document.getElementById('profile-img-{{$loop->index}}').click();">
-                          <i class="fas fa-user align-self-center" id="icon-{{$loop->index}}-preview"></i>
+                        <div id="profile-img-{{$loop->index}}-preview" class="d-flex justify-content-center preview image-hover" onclick="clickFileUpload({{$loop->index}})" style="background-image: url('{{$participants[$loop->index]['photo']}}')">
+                          {{-- <div id="profile-img-{{$loop->index}}-preview" class="d-flex justify-content-center preview image-hover" onclick="clickFileUpload({{$loop->index}})" style="background-image: url('@if($participants[$loop->index]['photo']) {{$participants[$loop->index]['photo']}} @else https://d3kcv4e58tsh6h.cloudfront.net/images/default_user.jpg @endif')"> --}}
+                          <i class="fas fa-user align-self-center @if($participants[$loop->index]['photo']) d-none @endif" id="icon-{{$loop->index}}-preview"></i>
+                          <input type="file" id="input-file-{{$loop->index}}" wire:change="$emit('fileChoosen', '{{ $loop->index }}')" accept="image/*">
                         </div>
                       </div>
                     </div>
-                    {{-- <div class="image-hover d-flex justify-content-center">
-                      <i class="fas fa-user align-self-center"></i>
-                      <input type="file" wire:model.defer="participants.{{ $loop->index }}.photo">
-                  </div> --}}
 
-                  {{-- https://dt9xom8irs6kr.cloudfront.net/u215205/z587xIKfojVAUqWHVDTv1606164605.png --}}
-
-                  {{-- <div class="cover-section cover_wj_user img-circle w_70px">
+                    {{-- <div class="cover-section cover_wj_user img-circle w_70px">
                     <div class="cover-image" style="background-image: url('https://d3kcv4e58tsh6h.cloudfront.net/images/default_user.jpg');">
                       <button class="w-100 h-100 full-cover_element fully_clickable btn_file_upload has-tooltip" data-original-title="null">
                         <i class="wji-file_add wji_stacked">
@@ -421,79 +418,88 @@
                     </div>
                   </div> --}}
 
+                  </div>
+
+                  <script>
+                    function limpaValor() {
+                      this.value = "";
+                    }
+
+                    function clickFileUpload(id) {
+                      inputFile = document.getElementById('input-file-' + id);
+                      inputFile.click();
+                    }
+
+                    // function showPreview(event, id) {
+                    //   if (event.target.files.length > 0) {
+                    //     var src = URL.createObjectURL(event.target.files[0]);
+                    //     var preview = document.getElementById('profile-img-' + id + '-preview');
+                    //     //   preview.src = src;
+                    //     preview.style.backgroundImage = 'url(' + src + ')';
+                    //     var iconPreview = document.getElementById('icon-' + id + '-preview');
+                    //     iconPreview.style.display = "none";
+                    //     //   preview.style.display = "block";
+                    //   }
+                    // }
+
+                  </script>
                 </div>
 
-                <script>
-                  function showPreview(event, id) {
-                    if (event.target.files.length > 0) {
-                      var src = URL.createObjectURL(event.target.files[0]);
-                      var preview = document.getElementById('profile-img-' + id + '-preview');
-                      //   preview.src = src;
-                      preview.style.backgroundImage = 'url(' + src + ')';
-                      var iconPreview = document.getElementById('icon-' + id + '-preview');
-                      iconPreview.style.display = "none";
-                      //   preview.style.display = "block";
-                    }
-                  }
+                {{-- remove --}}
+                <div class="col-sm-1">
+                  <a href="#" wire:click.prevent="addParticipant()" class="btn p-0 text-gray @if(!$this->canAddMoreParticipants()) disabled @endif"><i class="fas fa-user-plus"></i></a>
+                  @if ($loop->index > 0)
+                  <a href="#" wire:click.prevent="removeParticipant({{ $loop->index }})" class="btn p-0 text-gray"><i class="fas fa-user-minus"></i></a>
+                  @endif
+                </div>
 
-                </script>
               </div>
-
-              {{-- remove --}}
-              <div class="col-sm-1">
-                <a href="#" wire:click.prevent="addParticipant()" class="btn p-0 text-gray @if(!$this->canAddMoreParticipants()) disabled @endif"><i class="fas fa-user-plus"></i></a>
-                @if ($loop->index > 0)
-                <a href="#" wire:click.prevent="removeParticipant({{ $loop->index }})" class="btn p-0 text-gray"><i class="fas fa-user-minus"></i></a>
-                @endif
-              </div>
+              @endforeach
 
             </div>
-            @endforeach
-
+            <!-- /.card-body -->
           </div>
-          <!-- /.card-body -->
+
         </div>
-
+        <div class="tab-pane fade @if ($step == 1) active show @endif" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+          <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation
+            +1
+            labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft
+            beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad
+            vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar
+            helvetica
+            VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson
+            8-bit, sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party
+            scenester
+            stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</p>
+        </div>
+        <div class="tab-pane fade @if ($step == 2) active show @endif" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+          <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro
+            fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone
+            skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings
+            gentrify squid 8-bit cred pitchfork. Williamsburg banh mi whatever gluten-free, carles pitchfork
+            biodiesel
+            fixie etsy retro mlkshk vice blog. Scenester cred you probably haven't heard of them, vinyl craft beer
+            blog stumptown. Pitchfork sustainable tofu synth chambray yr.</p>
+        </div>
       </div>
-      <div class="tab-pane fade @if ($step == 1) active show @endif" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-        <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation
-          +1
-          labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft
-          beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad
-          vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar
-          helvetica
-          VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson
-          8-bit, sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party
-          scenester
-          stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</p>
-      </div>
-      <div class="tab-pane fade @if ($step == 2) active show @endif" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-        <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro
-          fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone
-          skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings
-          gentrify squid 8-bit cred pitchfork. Williamsburg banh mi whatever gluten-free, carles pitchfork
-          biodiesel
-          fixie etsy retro mlkshk vice blog. Scenester cred you probably haven't heard of them, vinyl craft beer
-          blog stumptown. Pitchfork sustainable tofu synth chambray yr.</p>
-      </div>
-  </div>
 
-  <div>
+      <div>
 
-    @if ($step > 0 && $step <= 2) <button type="button" wire:click="decreaseStep" class="btn btn-secondary mr-3">Back</button>
-      @endif
+        @if ($step > 0 && $step <= 2) <button type="button" wire:click="decreaseStep" class="btn btn-secondary mr-3">Back</button>
+          @endif
 
-      @if ($step <= 2) <button type="button" wire:click="next" class="btn btn-info">Next</button>
-        @endif
-        {{-- @if ($step <= 2) <button type="submit" class="btn btn-info">Next</button>
+          @if ($step <= 2) <button type="button" wire:click="next" class="btn btn-info">Next</button>
+            @endif
+            {{-- @if ($step <= 2) <button type="submit" class="btn btn-info">Next</button>
             @endif --}}
-        <button type="submit">Save Contact</button>
+            <button type="submit">Save Contact</button>
+
+      </div>
+    </form>
+
 
   </div>
-  </form>
-
-
-</div>
 </div>
 
 {{--
@@ -568,6 +574,7 @@
 
 <script>
   $(document).ready(function() {
+    // wizard
     $('#cardStep_0_Basic, #cardStep_0_Participants').on('collapsed.lte.cardwidget', function() {
       @this.set('steps_active_session.information', '');
       //   emitindo evento para o componente
@@ -588,6 +595,16 @@
       //   window.livewire.emit('activeSession', 'participants');
     })
 
+    // input file
+    Livewire.on('fileChoosen', id => {
+      let inputFile = document.getElementById('input-file-' + id);
+      let file = inputFile.files[0];
+      let reader = new FileReader();
+      reader.onloadend = () => {
+        Livewire.emit('fileUpload', id, reader.result);
+      }
+      reader.readAsDataURL(file);
+    })
   });
 
 </script>

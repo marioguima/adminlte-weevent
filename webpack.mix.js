@@ -17,3 +17,7 @@ mix.js('resources/js/app.js', 'public/js')
         require('tailwindcss'),
     ])
     .webpackConfig(require('./webpack.config'));
+
+mix.styles([
+    'resources/css/admin/events/show.css',
+], 'public/css/all.css');

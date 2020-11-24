@@ -13,3 +13,7 @@ trim_trailing_whitespace = false
 
 [*.{yml,yaml}]
 indent_size = 2
+
+[*.{blade.php,css,js,json,scss,styl}]
+indent_size = 2
+indent_style = space

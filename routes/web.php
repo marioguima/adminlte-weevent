@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Livewire\User\UploadPhoto;
+use App\Http\Controllers\Admin\EventController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,9 +17,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
 
 Route::get('/upload', UploadPhoto::class)->name('upload.photo.user');
-});
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
@@ -30,9 +32,9 @@ Route::get('setlocale/{locale}',function($lang){
 
 Route::group(['middleware'=> 'language'],function ()
 {
-    Route::get('/', function () {
-        return view('index');
-    });
+    // Route::get('/', function () {
+    //     return view('index');
+    // });
 
     //Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     //    return view('admin.dashboard');

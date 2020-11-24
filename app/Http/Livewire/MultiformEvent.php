@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Validator;
 
 class MultiformEvent extends Component
 {
@@ -42,7 +43,10 @@ class MultiformEvent extends Component
         'scheduler' => '',
     ];
 
-    protected $listeners = ['activeSession' => 'setActiveSession'];
+    protected $listeners = [
+        'activeSession' => 'setActiveSession',
+        'fileUpload' => 'handleFileUpload'
+    ];
 
     public function render()
     {
@@ -143,6 +147,35 @@ class MultiformEvent extends Component
     public function canAddMoreParticipants(): bool
     {
         return count($this->participants) < 6;
+    }
+
+    /**
+     * Listiner que recebe a imagem enviada
+     */
+    function handleFileUpload($id, $file) {
+        $this->resetErrorBag();
+        $validator = Validator::make(
+            [
+                'file' => $file
+            ],
+            [
+                'file' => 'base64image|base64max:100|base64dimensions:max_width=300,max_height=300'
+            ],
+            [
+                'file.base64image' => 'The file must be an image (jpeg, png, bmp, gif, svg, or webp)',
+                'file.base64max' => 'The Max size for file is :max kb',
+                'file.base64dimensions' => 'The Max dimension for :attribute is :width X :height (width X height)',
+            ]
+        );
+
+        if (!$validator->fails()) {
+            $this->resetErrorBag('file');
+            return $this->participants[$id]['photo'] = $file;
+        }
+
+        foreach ($validator->getMessageBag()->getMessages()['file'] as $message) {
+            $this->addError('participants.' . $id . '.photo', $message);
+        };
     }
 
 }
