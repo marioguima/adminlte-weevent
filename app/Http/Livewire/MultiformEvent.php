@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class MultiformEvent extends Component
 {
@@ -54,6 +55,9 @@ class MultiformEvent extends Component
     }
 
     public function mount() {
+        $this->participants[0]['full_name'] = Auth::user()->name;
+        $this->participants[0]['email'] = Auth::user()->email;
+        $this->participants[0]['role'] = 'presenter';
         // Primeiro verificamos se há algum valor antigo para os elementos do formulário que queremos renderizar.
         // Quando um usuário enviou um formulário com valores que não passaram na validação, exibimos esses valores antigos.
         // $this->participants = old('http_client_participants', $this->participants);
