@@ -152,18 +152,18 @@
 
     <ul class="nav nav-pills nav-tabs-custom nav-justified mt-n3" role="tablist">
       <li class="nav-item mr-1 mr-sm-3 d-flex flex-column align-items-center">
-        <a class="nav-link @if ($step == 0) active show @endif" wire:click="jumpToStep(0)" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false"><i class="far fa-file-video"></i></a>
+        <a class="nav-link @if ($step == 0) active show @endif" wire:click="jumpToStep(0)" id="info-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="false"><i class="fal fa-info"></i></a>
 
         <span class="label-step d-none d-sm-block">Informação</span>
       </li>
 
       <li class="nav-item mr-1 mr-sm-3 d-flex flex-column align-items-center">
-        <a class="nav-link @if ($step == 1) active show @endif" wire:click="jumpToStep(1)" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><i class="fas fa-chalkboard-teacher"></i></a>
+        <a class="nav-link @if ($step == 1) active show @endif" wire:click="jumpToStep(1)" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><i class="fal fa-chalkboard-teacher"></i></a>
         <span class="label-step d-none d-sm-block">Apresentadores</span>
       </li>
 
       <li class="nav-item d-flex flex-column align-items-center">
-        <a class="nav-link @if ($step == 2) active show @endif" wire:click="jumpToStep(2)" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="true"><i class="far fa-calendar-alt"></i></a>
+        <a class="nav-link @if ($step == 2) active show @endif" wire:click="jumpToStep(2)" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="true"><i class="fal fa-calendar-alt"></i></a>
         <span class="label-step d-none d-sm-block">Programação</span>
       </li>
     </ul>
@@ -194,7 +194,7 @@
     </script>@enderror
 
     <div class="tab-content" id="myTabContent">
-      <div class="tab-pane fade @if ($step == 0) active show @endif" id="home" role="tabpanel" aria-labelledby="home-tab">
+      <div class="tab-pane fade @if ($step == 0) active show @endif" id="info" role="tabpanel" aria-labelledby="info-tab">
 
         {{-- Information - Basic --}}
         <div class="card @if ($step == 0 && $steps_active_session['information'] != 'basic') collapsed-card @endif" id="cardStep_0_Basic" card-default>
@@ -205,7 +205,7 @@
 
             <!-- card-tools -->
             <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas @if ($step == 0 && $steps_active_session['information'] != 'basic') fa-plus @else fa-minus @endif"></i>
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fal @if ($step == 0 && $steps_active_session['information'] != 'basic') fa-plus @else fa-minus @endif"></i>
               </button>
             </div>
           </div>
@@ -264,7 +264,7 @@
 
             {{-- card-tools --}}
             <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas @if ($step == 0 && $steps_active_session['information'] != 'participants') fa-plus @else fa-minus @endif"></i>
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fal @if ($step == 0 && $steps_active_session['information'] != 'participants') fa-plus @else fa-minus @endif"></i>
               </button>
             </div>
           </div>
@@ -453,7 +453,7 @@
                   <div class="center">
                     <div class="form-input">
                       <div id="profile-img-{{$loop->index}}-preview" class="d-flex justify-content-center preview image-hover" onclick="clickFileUpload({{$loop->index}})" style="background-image: url('{{$participants[$loop->index]['photo']}}')">
-                        <i class="fas fa-user align-self-center @if($participants[$loop->index]['photo']) d-none @endif" id="icon-{{$loop->index}}-preview"></i>
+                        <i class="fal fa-user align-self-center @if($participants[$loop->index]['photo']) d-none @endif" id="icon-{{$loop->index}}-preview"></i>
                         <input type="file" id="input-file-{{$loop->index}}" wire:change="$emit('fileChoosen', '{{ $loop->index }}')" accept="image/*">
                       </div>
                     </div>
@@ -476,9 +476,9 @@
 
               {{-- actions --}}
               <div class="col-2 col-sm-1" style="width: 50px">
-                <a href="#" wire:click.prevent="addParticipant()" class="btn p-0 text-gray @if(!$this->canAddMoreParticipants()) disabled @endif"><i class="fas fa-user-plus"></i></a>
+                <a href="#" wire:click.prevent="addParticipant()" class="btn p-0 text-gray @if(!$this->canAddMoreParticipants()) disabled @endif"><i class="fal fa-user-plus"></i></a>
                 @if ($loop->index > 0)
-                <a href="#" wire:click.prevent="removeParticipant({{ $loop->index }})" class="btn p-0 text-gray"><i class="fas fa-user-minus"></i></a>
+                <a href="#" wire:click.prevent="removeParticipant({{ $loop->index }})" class="btn p-0 text-gray"><i class="fal fa-user-minus"></i></a>
                 @endif
               </div>
 
