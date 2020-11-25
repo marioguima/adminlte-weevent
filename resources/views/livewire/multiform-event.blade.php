@@ -475,11 +475,19 @@
               </div>
 
               {{-- actions --}}
-              <div class="col-2 col-sm-1" style="width: 50px">
-                <a href="#" wire:click.prevent="addParticipant()" class="btn p-0 text-gray @if(!$this->canAddMoreParticipants()) disabled @endif"><i class="fal fa-user-plus"></i></a>
-                @if ($loop->index > 0)
-                <a href="#" wire:click.prevent="removeParticipant({{ $loop->index }})" class="btn p-0 text-gray"><i class="fal fa-user-minus"></i></a>
-                @endif
+              <div class="col-2 col-sm-1">
+                <div class="row justify-content-md-center">
+                  <div class="col-3">
+                    <a href="#" wire:click.prevent="addParticipant()" class="btn p-0 btn-tool @if(!$this->canAddMoreParticipants()) disabled @endif"><i class="fal fa-plus"></i></a>
+                  </div>
+                  <div class="col-3">
+                    @if ($loop->index > 0)
+                    <a href="#" wire:click.prevent="removeParticipant({{ $loop->index }})" class="btn p-0 btn-tool"><i class="fal fa-minus"></i></a>
+                    @endif
+                  </div>
+                </div>
+
+
               </div>
 
               <hr class="mt-0 mb-3 p-0 col-sm-12 d-sm-none d-block">
