@@ -200,7 +200,7 @@
         <div class="card @if ($step == 0 && $steps_active_session['information'] != 'basic') collapsed-card @endif" id="cardStep_0_Basic" card-default>
 
           <!-- card-header (Basic) -->
-          <div class="card-header">
+          <div class="card-header without-border">
             <h3 class="card-title">{{ trans('adminlte::weevent.basic') }}</h3>
 
             <!-- card-tools -->
@@ -210,7 +210,7 @@
             </div>
           </div>
 
-          <div class="card-body" style="display: @if ($step == 0 && $steps_active_session['information'] != 'basic') none; @else block; @endif">
+          <div class="card-body pt-1" style="display: @if ($step == 0 && $steps_active_session['information'] != 'basic') none; @else block; @endif">
             <!-- Title -->
             <div class="row">
               <div class="col-sm-12">
@@ -259,7 +259,7 @@
         <div class="card @if ($step == 0 && $steps_active_session['information'] != 'participants') collapsed-card @endif" id="cardStep_0_Participants">
 
           <!-- card-header (Presenters and collaborators) -->
-          <div class="card-header">
+          <div class="card-header without-border">
             <h3 class="card-title">{{ trans('adminlte::weevent.presenters_collaborators') }}</h3>
 
             {{-- card-tools --}}
@@ -270,7 +270,7 @@
           </div>
 
           {{-- List of participants --}}
-          <div class="card-body" style="display: @if ($step == 0 && $steps_active_session['information'] != 'participants') none; @else block; @endif">
+          <div class="card-body pt-2 pb-2" style="display: @if ($step == 0 && $steps_active_session['information'] != 'participants') none; @else block; @endif">
 
             {{-- cabeçalho --}}
             <div class="row mb-1 d-none d-sm-flex">

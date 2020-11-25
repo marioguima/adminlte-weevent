@@ -20,13 +20,23 @@ body {
     font-size: 20px;
 }
 
+.card {
+    box-shadow: 0 0 1px rgba(0, 0, 0, .125), 0 1px 1px rgba(0, 0, 0, .1);
+    margin-bottom: 1rem;
+}
+
+.without-border {
+    /* border-bottom: 1px dashed rgba(0, 0, 0, .1); */
+    border-bottom: 0;
+}
+
 label:not(.form-check-label):not(.custom-file-label) {
     font-weight: 300;
     /* margin-bottom: 5px; */
 }
 
 .form-control {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
 }
 
 .form-group input {
