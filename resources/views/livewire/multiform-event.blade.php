@@ -125,11 +125,8 @@
   }
 
   .image-hover {
-    width: 40px;
-    height: 40px;
     background: #dbdada;
     border-radius: 50%;
-    font-size: 20px;
     color: #8b8989;
     transition: .5s;
   }
@@ -145,10 +142,6 @@
     color: #26bdde;
     box-shadow: 0 0 8px #26bdde;
     text-shadow: 0 0 2px #26bdde;
-  }
-
-  .form-control {
-    border-top: none !important;
   }
 
 </style>
@@ -303,7 +296,7 @@
                 </div>
 
                 {{-- actions --}}
-                <div class="col-sm-1 order-sm-last">
+                <div class="col-sm-1 order-sm-last" style="width: 50px">
                 </div>
               </div>
 
@@ -373,7 +366,7 @@
               </div>
               <div class="col-8 col-sm-3">
                 <div class="form-group">
-                  <input type="text" wire:model.defer="participants.{{ $loop->index }}.full_name" class="form-control" placeholder="{{ @trans('adminlte::weevent.full_name_placeholder') }} ...">
+                  <input type="text" wire:model.defer="participants.{{ $loop->index }}.full_name" class="form-control-sm w-100" placeholder="{{ @trans('adminlte::weevent.full_name_placeholder') }} ...">
                   @error("participants.{$loop->index}.full_name")<small class="form-text text-danger">{{ $errors->first("participants.{$loop->index}.full_name") }}</small>@enderror
                 </div>
               </div>
@@ -384,15 +377,15 @@
               </div>
               <div class="col-8 col-sm-4">
                 <div class="form-group">
-                  <input type="text" wire:model.defer="participants.{{ $loop->index }}.email" class="form-control" placeholder="{{ @trans('adminlte::weevent.email_placeholder') }} ...">
+                  <input type="text" wire:model.defer="participants.{{ $loop->index }}.email" class="form-control-sm w-100" placeholder="{{ @trans('adminlte::weevent.email_placeholder') }} ...">
                   @error("participants.{$loop->index}.email")<small class="form-text text-danger">{{ $errors->first("participants.{$loop->index}.email") }}</small>@enderror
                 </div>
               </div>
 
               {{-- role --}}
-              <div class="col-8 col-sm-3 align-self-center">
+              <div class="col-8 col-sm-3">
                 <div class="form-row">
-                  <div class="custom-control custom-radio mr-1">
+                  <div class="custom-control custom-radio mr-2">
                     <input wire:model.defer="participants.{{ $loop->index }}.role" class="custom-control-input" type="radio" id="role_presenter{{ $loop->index }}" name="role{{ $loop->index }}" value="presenter" checked="">
                     <label for="role_presenter{{ $loop->index }}" class="custom-control-label">{{ @trans('adminlte::weevent.presenter') }}</label>
                   </div>
@@ -432,7 +425,6 @@
                     line-height: 50px;
                     text-align: center;
                     background-color: #333;
-                    font-size: 18px;
                     cursor: pointer;
                     color: #fff;
                     border-radius: 50%;
@@ -441,8 +433,8 @@
                   .preview {
                     position: absolute;
                     top: 0;
-                    height: 40px;
-                    width: 40px;
+                    height: 34px;
+                    width: 34px;
                     margin: auto;
                     background-size: cover;
                     border: solid 1px #d3d3d3;
@@ -461,7 +453,6 @@
                   <div class="center">
                     <div class="form-input">
                       <div id="profile-img-{{$loop->index}}-preview" class="d-flex justify-content-center preview image-hover" onclick="clickFileUpload({{$loop->index}})" style="background-image: url('{{$participants[$loop->index]['photo']}}')">
-                        {{-- <div id="profile-img-{{$loop->index}}-preview" class="d-flex justify-content-center preview image-hover" onclick="clickFileUpload({{$loop->index}})" style="background-image: url('@if($participants[$loop->index]['photo']) {{$participants[$loop->index]['photo']}} @else https://d3kcv4e58tsh6h.cloudfront.net/images/default_user.jpg @endif')"> --}}
                         <i class="fas fa-user align-self-center @if($participants[$loop->index]['photo']) d-none @endif" id="icon-{{$loop->index}}-preview"></i>
                         <input type="file" id="input-file-{{$loop->index}}" wire:change="$emit('fileChoosen', '{{ $loop->index }}')" accept="image/*">
                       </div>
@@ -484,13 +475,14 @@
               </div>
 
               {{-- actions --}}
-              <div class="col-2 col-sm-1">
+              <div class="col-2 col-sm-1" style="width: 50px">
                 <a href="#" wire:click.prevent="addParticipant()" class="btn p-0 text-gray @if(!$this->canAddMoreParticipants()) disabled @endif"><i class="fas fa-user-plus"></i></a>
                 @if ($loop->index > 0)
                 <a href="#" wire:click.prevent="removeParticipant({{ $loop->index }})" class="btn p-0 text-gray"><i class="fas fa-user-minus"></i></a>
                 @endif
               </div>
 
+              <hr class="mt-0 mb-3 p-0 col-sm-12 d-sm-none d-block">
             </div>
 
             @endforeach

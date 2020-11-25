@@ -162,23 +162,27 @@ class MultiformEvent extends Component
                 'file' => $file
             ],
             [
-                'file' => 'base64image|base64max:100|base64dimensions:max_width=300,max_height=300'
+                'file' => 'base64image|base64max:500|base64dimensions:max_width=300,max_height=300'
             ],
             [
-                'file.base64image' => 'The file must be an image (jpeg, png, bmp, gif, svg, or webp)',
-                'file.base64max' => 'The Max size for file is :max kb',
-                'file.base64dimensions' => 'The Max dimension for :attribute is :width X :height (width X height)',
+                'file.base64image' => 'Only image',
+                'file.base64max' => 'Max size 500kb',
+                'file.base64dimensions' => 'Max dimension 300x300',
             ]
         );
 
         if (!$validator->fails()) {
-            $this->resetErrorBag('file');
+            $this->resetErrorBag('participants.' . $id . '.photo');
             return $this->participants[$id]['photo'] = $file;
         }
 
         // para remover a photo anterior se a nova enviada não for válida
         $this->participants[$id]['photo'] = "";
 
+        // remove os erros anteriores
+        $this->resetErrorBag('participants.' . $id . '.photo');
+
+        // adiciona os erros de validação
         foreach ($validator->getMessageBag()->getMessages()['file'] as $message) {
             $this->addError('participants.' . $id . '.photo', $message);
         };
