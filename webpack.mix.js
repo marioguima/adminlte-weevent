@@ -20,4 +20,5 @@ mix.js('resources/js/app.js', 'public/js')
 
 mix.styles([
     'resources/css/admin/events/show.css',
+    'resources/css/admin/index.css',
 ], 'public/css/all.css');

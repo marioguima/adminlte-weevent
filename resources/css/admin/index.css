@@ -26,7 +26,7 @@ label:not(.form-check-label):not(.custom-file-label) {
 }
 
 .form-control {
-    /* font-size: 1.2rem; */
+    font-size: 1.5rem;
 }
 
 .form-group input {

@@ -157,7 +157,6 @@ class MultiformEvent extends Component
      * Listiner que recebe a imagem enviada
      */
     function handleFileUpload($id, $file) {
-        $this->resetErrorBag();
         $validator = Validator::make(
             [
                 'file' => $file
@@ -176,6 +175,9 @@ class MultiformEvent extends Component
             $this->resetErrorBag('file');
             return $this->participants[$id]['photo'] = $file;
         }
+
+        // para remover a photo anterior se a nova enviada não for válida
+        $this->participants[$id]['photo'] = "";
 
         foreach ($validator->getMessageBag()->getMessages()['file'] as $message) {
             $this->addError('participants.' . $id . '.photo', $message);

@@ -147,6 +147,10 @@
     text-shadow: 0 0 2px #26bdde;
   }
 
+  .form-control {
+    border-top: none !important;
+  }
+
 </style>
 @endpush
 
@@ -172,403 +176,370 @@
     </ul>
 
 
-    {{-- <form id="frmEvent" method="POST" action="{{ route('event.store') }}">
-    @csrf --}}
-    <form wire:submit.prevent="submit" style="margin-top: 7px;">
+    @if (session()->has('message'))
+    <div class="alert alert-success">
+      {{ session('message') }}
+    </div>
+    @endif
 
-      {{-- erros --}}
-      @error('title')<script>
-        $('#cardStep_0_Basic').CardWidget('expand');
+    {{-- @foreach ($participants as $participant)
+    @if($errors->has('participants.' . $loop->index . '.photo'))
+    <div class="alert alert-dark">{{ $errors->first('participants.' . $loop->index . '.photo') }}
+  </div>
+  @endif
+  @endforeach --}}
 
-      </script>@enderror
 
-      <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade @if ($step == 0) active show @endif" id="home" role="tabpanel" aria-labelledby="home-tab">
+  {{-- <form id="frmEvent" method="POST" action="{{ route('event.store') }}">
+  @csrf --}}
+  <form wire:submit.prevent="submit" style="margin-top: 7px;">
 
-          {{-- Information - Basic --}}
-          <div class="card @if ($step == 0 && $steps_active_session['information'] != 'basic') collapsed-card @endif" id="cardStep_0_Basic" card-default>
+    {{-- erros --}}
+    @error('title')<script>
+      $('#cardStep_0_Basic').CardWidget('expand');
 
-            <!-- card-header (Basic) -->
-            <div class="card-header">
-              <h3 class="card-title">{{ trans('adminlte::weevent.basic') }}</h3>
+    </script>@enderror
 
-              <!-- card-tools -->
-              <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas @if ($step == 0 && $steps_active_session['information'] != 'basic') fa-plus @else fa-minus @endif"></i>
-                </button>
-              </div>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade @if ($step == 0) active show @endif" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+        {{-- Information - Basic --}}
+        <div class="card @if ($step == 0 && $steps_active_session['information'] != 'basic') collapsed-card @endif" id="cardStep_0_Basic" card-default>
+
+          <!-- card-header (Basic) -->
+          <div class="card-header">
+            <h3 class="card-title">{{ trans('adminlte::weevent.basic') }}</h3>
+
+            <!-- card-tools -->
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas @if ($step == 0 && $steps_active_session['information'] != 'basic') fa-plus @else fa-minus @endif"></i>
+              </button>
             </div>
-
-            <div class="card-body" style="display: @if ($step == 0 && $steps_active_session['information'] != 'basic') none; @else block; @endif">
-              <!-- Title -->
-              <div class="row">
-                <div class="col-sm-12">
-                  <div class="form-group label-floating is-empty">
-                    <label>{{ trans('adminlte::weevent.title_of_event') }}</label>
-                    <input wire:model.defer="title" type="text" class="form-control" placeholder="Informe o título ...">
-                    @error('title')<small class="form-text text-danger">{{ $message }}</small>@enderror
-                  </div>
-                </div>
-              </div>
-
-              {{-- video platform --}}
-              <div class="row">
-                <div class="col-md-5 col-lg-4">
-                  <div class="form-group">
-                    <label for="">{{ trans('adminlte::weevent.video_platform') }}</label><br />
-                    <div class="btn-group btn-group-toggle">
-                      <label class="btn btn-info @if($video_platform=='youtube') active @endif">
-                        <input type="radio" wire:model="video_platform" name="video_platform" id="youtube" value="youtube" autocomplete="off" checked> Youtube
-                      </label>
-                      <label class="btn btn-info @if($video_platform=='vimeo') active @endif">
-                        <input type="radio" wire:model="video_platform" name="video_platform" id="vimeo" value="vimeo" autocomplete="off"> Vimeo
-                      </label>
-                      <label class="btn btn-info @if($video_platform=='wistia') active @endif">
-                        <input type="radio" wire:model="video_platform" name="video_platform" id="youtube" value="wistia" autocomplete="off"> Wistia
-                      </label>
-                    </div>
-                  </div>
-                </div>
-
-                {{-- video id --}}
-                <div class="col-md-7 col-lg-8">
-                  <div class="form-group">
-                    <label>{{ trans('adminlte::weevent.platform_video_id', ['platform' => $video_platform]) }}</label>
-                    <input wire:model.defer="video_id" type="text" class="form-control" placeholder="Identificador do vídeo ...">
-                    @error('video_id')<small class="form-text text-danger">{{ $message }}</small>@enderror
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
           </div>
 
-          {{-- Information - Participants and collaborators --}}
-          <div class="card @if ($step == 0 && $steps_active_session['information'] != 'participants') collapsed-card @endif" id="cardStep_0_Participants">
-
-            <!-- card-header (Presenters and collaborators) -->
-            <div class="card-header">
-              <h3 class="card-title">{{ trans('adminlte::weevent.presenters_collaborators') }}</h3>
-
-              {{-- card-tools --}}
-              <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas @if ($step == 0 && $steps_active_session['information'] != 'participants') fa-plus @else fa-minus @endif"></i>
-                </button>
+          <div class="card-body" style="display: @if ($step == 0 && $steps_active_session['information'] != 'basic') none; @else block; @endif">
+            <!-- Title -->
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group label-floating is-empty">
+                  <label>{{ trans('adminlte::weevent.title_of_event') }}</label>
+                  <input wire:model.defer="title" type="text" class="form-control" placeholder="Informe o título ...">
+                  @error('title')<small class="form-text text-danger">{{ $message }}</small>@enderror
+                </div>
               </div>
             </div>
 
-            {{-- List of participants --}}
-            <div class="card-body" style="display: @if ($step == 0 && $steps_active_session['information'] != 'participants') none; @else block; @endif">
-
-              {{-- cabeçalho --}}
-              <div class="row mb-1 d-none d-sm-flex">
-                <div class="col d-flex">
-                  {{-- full name --}}
-                  <div class="col-sm-3">
-                    <label>{{ trans('adminlte::weevent.full_name') }}</label>
-                  </div>
-
-                  {{-- email --}}
-                  <div class="col-sm-4">
-                    <label>{{ trans('adminlte::weevent.email') }}</label>
-                  </div>
-
-                  {{-- role --}}
-                  <div class="col-sm-3">
-                    <label>{{ trans('adminlte::weevent.role') }}</label>
-                  </div>
-
-                  {{-- photo --}}
-                  <div class="col-sm-1 d-flex justify-content-center">
-                    <label>{{ trans('adminlte::weevent.photo') }}</label>
-                  </div>
-
-                  {{-- remove --}}
-                  <div class="col-sm-1">
+            {{-- video platform --}}
+            <div class="row">
+              <div class="col-md-5 col-lg-4">
+                <div class="form-group">
+                  <label for="">{{ trans('adminlte::weevent.video_platform') }}</label><br />
+                  <div class="btn-group btn-group-toggle">
+                    <label class="btn btn-info @if($video_platform=='youtube') active @endif">
+                      <input type="radio" wire:model="video_platform" name="video_platform" id="youtube" value="youtube" autocomplete="off" checked> Youtube
+                    </label>
+                    <label class="btn btn-info @if($video_platform=='vimeo') active @endif">
+                      <input type="radio" wire:model="video_platform" name="video_platform" id="vimeo" value="vimeo" autocomplete="off"> Vimeo
+                    </label>
+                    <label class="btn btn-info @if($video_platform=='wistia') active @endif">
+                      <input type="radio" wire:model="video_platform" name="video_platform" id="youtube" value="wistia" autocomplete="off"> Wistia
+                    </label>
                   </div>
                 </div>
-
               </div>
 
-              {{-- participants --}}
-              @foreach ($participants as $participant)
-              <div class="row" wire:key="post-field-{{ $loop->index }}">
-
-                {{-- full name --}}
-                <div class="col-4 d-block d-sm-none align-self-center">
-                  <label>{{ trans('adminlte::weevent.full_name') }}:</label>
+              {{-- video id --}}
+              <div class="col-md-7 col-lg-4">
+                <div class="form-group">
+                  <label>{{ trans('adminlte::weevent.platform_video_id', ['platform' => $video_platform]) }}</label>
+                  <input wire:model.defer="video_id" type="text" class="form-control" placeholder="Identificador do vídeo ...">
+                  @error('video_id')<small class="form-text text-danger">{{ $message }}</small>@enderror
                 </div>
-                <div class="col-8 col-sm-3">
-                  <div class="form-group">
-                    <input type="text" wire:model.defer="participants.{{ $loop->index }}.full_name" class="form-control" placeholder="{{ @trans('adminlte::weevent.full_name_placeholder') }} ...">
-                    @error("participants.{$loop->index}.full_name")<small class="form-text text-danger">{{ $errors->first("participants.{$loop->index}.full_name") }}</small>@enderror
-                  </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        {{-- Information - Participants and collaborators --}}
+        <div class="card @if ($step == 0 && $steps_active_session['information'] != 'participants') collapsed-card @endif" id="cardStep_0_Participants">
+
+          <!-- card-header (Presenters and collaborators) -->
+          <div class="card-header">
+            <h3 class="card-title">{{ trans('adminlte::weevent.presenters_collaborators') }}</h3>
+
+            {{-- card-tools --}}
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas @if ($step == 0 && $steps_active_session['information'] != 'participants') fa-plus @else fa-minus @endif"></i>
+              </button>
+            </div>
+          </div>
+
+          {{-- List of participants --}}
+          <div class="card-body" style="display: @if ($step == 0 && $steps_active_session['information'] != 'participants') none; @else block; @endif">
+
+            {{-- cabeçalho --}}
+            <div class="row mb-1 d-none d-sm-flex">
+              <div class="col d-flex">
+                {{-- full name --}}
+                <div class="col-sm-3">
+                  <label>{{ trans('adminlte::weevent.full_name') }}</label>
                 </div>
 
                 {{-- email --}}
-                <div class="col-4 d-block d-sm-none align-self-center">
-                  <label>{{ trans('adminlte::weevent.email') }}:</label>
-                </div>
-                <div class="col-8 col-sm-4">
-                  <div class="form-group">
-                    <input type="text" wire:model.defer="participants.{{ $loop->index }}.email" class="form-control" placeholder="{{ @trans('adminlte::weevent.email_placeholder') }} ...">
-                    @error("participants.{$loop->index}.email")<small class="form-text text-danger">{{ $errors->first("participants.{$loop->index}.email") }}</small>@enderror
-                  </div>
+                <div class="col-sm-4">
+                  <label>{{ trans('adminlte::weevent.email') }}</label>
                 </div>
 
                 {{-- role --}}
-                <div class="col-sm-3 align-self-center">
-                  <div class="form-row">
-                    <div class="custom-control custom-radio mr-1">
-                      <input wire:model.defer="participants.{{ $loop->index }}.role" class="custom-control-input" type="radio" id="role_presenter{{ $loop->index }}" name="role{{ $loop->index }}" value="presenter" checked="">
-                      <label for="role_presenter{{ $loop->index }}" class="custom-control-label">{{ @trans('adminlte::weevent.presenter') }}</label>
-                    </div>
-                    <div class="custom-control custom-radio">
-                      <input wire:model.defer="participants.{{ $loop->index }}.role" class="custom-control-input" type="radio" id="role_moderator{{ $loop->index }}" name="role{{ $loop->index }}" value="moderator" checked="">
-                      <label for="role_moderator{{ $loop->index }}" class="custom-control-label">{{ @trans('adminlte::weevent.moderator') }}</label>
-                    </div>
-                    {{-- <input type="text" wire:model.defer="participants.{{ $loop->index }}.role" class="form-control" placeholder="{{ @trans('adminlte::weevent.role_placeholder') }} ..."> --}}
-                    @error("participants.{$loop->index}.role")<small class="form-text text-danger">{{ $errors->first("participants.{$loop->index}.role") }}</small>@enderror
-                  </div>
+                <div class="col-sm-3">
+                  <label>{{ trans('adminlte::weevent.role') }}</label>
                 </div>
 
                 {{-- photo --}}
-                <div class="col-sm-1 align-self-center d-flex justify-content-center">
-                  {{-- <div class="image-upload-one">
-                    <div class="center">
-                      <div class="form-input">
-                        <label for="file-ip-1">
-                          <img id="file-ip-1-preview" src="https://i.ibb.co/ZVFsg37/default.png">
-                          <button type="button" class="imgRemove" onclick="myImgRemoveFunctionOne()"></button>
-                        </label>
-                        <input type="file" name="img_one" id="file-ip-1" accept="image/*" onchange="showPreviewOne(event);">
-                      </div>
-                      <small class="small">Use the ↺ icon to reset the image</small>
-                    </div>
-                  </div> --}}
-
-                  <style>
-                    .center {
-                      height: 100%;
-                      display: flex;
-                      align-items: center;
-                      justify-content: center;
-                    }
-
-                    .form-input {
-                      width: 40px;
-                      height: 40px;
-                    }
-
-                    .form-input input {
-                      display: none;
-                    }
-
-                    .form-input label {
-                      display: block;
-                      width: 100%;
-                      height: 100%;
-                      line-height: 50px;
-                      text-align: center;
-                      background-color: #333;
-                      font-size: 18px;
-                      cursor: pointer;
-                      color: #fff;
-                      border-radius: 50%;
-                    }
-
-                    .preview {
-                      position: absolute;
-                      top: 0;
-                      height: 40px;
-                      width: 40px;
-                      margin: auto;
-                      background-size: cover;
-                      border: solid 1px #d3d3d3;
-                    }
-
-                    .form-input img {
-                      width: 100%;
-                      height: 100%;
-                      display: none;
-
-                    }
-
-                  </style>
-
-                  <div class="form-group">
-                    <div class="center">
-                      <div class="form-input">
-                        <div id="profile-img-{{$loop->index}}-preview" class="d-flex justify-content-center preview image-hover" onclick="clickFileUpload({{$loop->index}})" style="background-image: url('{{$participants[$loop->index]['photo']}}')">
-                          {{-- <div id="profile-img-{{$loop->index}}-preview" class="d-flex justify-content-center preview image-hover" onclick="clickFileUpload({{$loop->index}})" style="background-image: url('@if($participants[$loop->index]['photo']) {{$participants[$loop->index]['photo']}} @else https://d3kcv4e58tsh6h.cloudfront.net/images/default_user.jpg @endif')"> --}}
-                          <i class="fas fa-user align-self-center @if($participants[$loop->index]['photo']) d-none @endif" id="icon-{{$loop->index}}-preview"></i>
-                          <input type="file" id="input-file-{{$loop->index}}" wire:change="$emit('fileChoosen', '{{ $loop->index }}')" accept="image/*">
-                        </div>
-                      </div>
-                    </div>
-
-                    {{-- <div class="cover-section cover_wj_user img-circle w_70px">
-                    <div class="cover-image" style="background-image: url('https://d3kcv4e58tsh6h.cloudfront.net/images/default_user.jpg');">
-                      <button class="w-100 h-100 full-cover_element fully_clickable btn_file_upload has-tooltip" data-original-title="null">
-                        <i class="wji-file_add wji_stacked">
-                          <i class="wji-file_add_shade"></i>
-                        </i>
-                        <input type="file" accept=".jpg, .jpeg, .gif, .png"></button>
-                    </div>
-                  </div> --}}
-
-                  </div>
-
-                  <script>
-                    function limpaValor() {
-                      this.value = "";
-                    }
-
-                    function clickFileUpload(id) {
-                      inputFile = document.getElementById('input-file-' + id);
-                      inputFile.click();
-                    }
-
-                    // function showPreview(event, id) {
-                    //   if (event.target.files.length > 0) {
-                    //     var src = URL.createObjectURL(event.target.files[0]);
-                    //     var preview = document.getElementById('profile-img-' + id + '-preview');
-                    //     //   preview.src = src;
-                    //     preview.style.backgroundImage = 'url(' + src + ')';
-                    //     var iconPreview = document.getElementById('icon-' + id + '-preview');
-                    //     iconPreview.style.display = "none";
-                    //     //   preview.style.display = "block";
-                    //   }
-                    // }
-
-                  </script>
+                <div class="col-sm-1 d-flex justify-content-center">
+                  <label>{{ trans('adminlte::weevent.photo') }}</label>
                 </div>
 
-                {{-- remove --}}
-                <div class="col-sm-1">
-                  <a href="#" wire:click.prevent="addParticipant()" class="btn p-0 text-gray @if(!$this->canAddMoreParticipants()) disabled @endif"><i class="fas fa-user-plus"></i></a>
-                  @if ($loop->index > 0)
-                  <a href="#" wire:click.prevent="removeParticipant({{ $loop->index }})" class="btn p-0 text-gray"><i class="fas fa-user-minus"></i></a>
-                  @endif
+                {{-- actions --}}
+                <div class="col-sm-1 order-sm-last">
+                </div>
+              </div>
+
+            </div>
+
+            {{-- participants --}}
+            @foreach ($participants as $participant)
+
+            {{-- errors --}}
+            @if($errors)
+            <div class="row">
+              <div class="col">
+                {{-- full name --}}
+                <div class="col-sm-3">
+                  @foreach ($errors->get('participants.' . $loop->index . '.full_name') as $error)
+                  <div class="row">
+                    <div class="col">
+                      <small class="form-text text-danger">{{ $error }}</small>
+                    </div>
+                  </div>
+                  @endforeach
+                </div>
+
+                {{-- email --}}
+                <div class="col-sm-4">
+                  @foreach ($errors->get('participants.' . $loop->index . '.email') as $error)
+                  <div class="row">
+                    <div class="col">
+                      <small class="form-text text-danger">{{ $error }}</small>
+                    </div>
+                  </div>
+                  @endforeach
+                </div>
+
+                {{-- role --}}
+                <div class="col-sm-3">
+                  @foreach ($errors->get('participants.' . $loop->index . '.role') as $error)
+                  <div class="row">
+                    <div class="col">
+                      <small class="form-text text-danger">{{ $error }}</small>
+                    </div>
+                  </div>
+                  @endforeach
+                </div>
+
+                {{-- photo --}}
+                <div class="col-sm-2">
+                  @foreach ($errors->get('participants.' . $loop->index . '.photo') as $error)
+                  <div class="row">
+                    <div class="col">
+                      <small class="form-text text-danger">{{ $error }}</small>
+                    </div>
+                  </div>
+                  @endforeach
                 </div>
 
               </div>
-              @endforeach
 
             </div>
-            <!-- /.card-body -->
-          </div>
-
-        </div>
-        <div class="tab-pane fade @if ($step == 1) active show @endif" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-          <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation
-            +1
-            labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft
-            beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad
-            vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar
-            helvetica
-            VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson
-            8-bit, sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party
-            scenester
-            stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</p>
-        </div>
-        <div class="tab-pane fade @if ($step == 2) active show @endif" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-          <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro
-            fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone
-            skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings
-            gentrify squid 8-bit cred pitchfork. Williamsburg banh mi whatever gluten-free, carles pitchfork
-            biodiesel
-            fixie etsy retro mlkshk vice blog. Scenester cred you probably haven't heard of them, vinyl craft beer
-            blog stumptown. Pitchfork sustainable tofu synth chambray yr.</p>
-        </div>
-      </div>
-
-      <div>
-
-        @if ($step > 0 && $step <= 2) <button type="button" wire:click="decreaseStep" class="btn btn-secondary mr-3">Back</button>
-          @endif
-
-          @if ($step <= 2) <button type="button" wire:click="next" class="btn btn-info">Next</button>
             @endif
-            {{-- @if ($step <= 2) <button type="submit" class="btn btn-info">Next</button>
-            @endif --}}
-            <button type="submit">Save Contact</button>
+
+            <div class="row" wire:key="post-field-{{ $loop->index }}">
+
+              {{-- full name --}}
+              <div class="col-4 d-block d-sm-none align-self-center">
+                <label>{{ trans('adminlte::weevent.full_name') }}:</label>
+              </div>
+              <div class="col-8 col-sm-3">
+                <div class="form-group">
+                  <input type="text" wire:model.defer="participants.{{ $loop->index }}.full_name" class="form-control" placeholder="{{ @trans('adminlte::weevent.full_name_placeholder') }} ...">
+                  @error("participants.{$loop->index}.full_name")<small class="form-text text-danger">{{ $errors->first("participants.{$loop->index}.full_name") }}</small>@enderror
+                </div>
+              </div>
+
+              {{-- email --}}
+              <div class="col-4 d-block d-sm-none align-self-center">
+                <label>{{ trans('adminlte::weevent.email') }}:</label>
+              </div>
+              <div class="col-8 col-sm-4">
+                <div class="form-group">
+                  <input type="text" wire:model.defer="participants.{{ $loop->index }}.email" class="form-control" placeholder="{{ @trans('adminlte::weevent.email_placeholder') }} ...">
+                  @error("participants.{$loop->index}.email")<small class="form-text text-danger">{{ $errors->first("participants.{$loop->index}.email") }}</small>@enderror
+                </div>
+              </div>
+
+              {{-- role --}}
+              <div class="col-8 col-sm-3 align-self-center">
+                <div class="form-row">
+                  <div class="custom-control custom-radio mr-1">
+                    <input wire:model.defer="participants.{{ $loop->index }}.role" class="custom-control-input" type="radio" id="role_presenter{{ $loop->index }}" name="role{{ $loop->index }}" value="presenter" checked="">
+                    <label for="role_presenter{{ $loop->index }}" class="custom-control-label">{{ @trans('adminlte::weevent.presenter') }}</label>
+                  </div>
+                  <div class="custom-control custom-radio">
+                    <input wire:model.defer="participants.{{ $loop->index }}.role" class="custom-control-input" type="radio" id="role_moderator{{ $loop->index }}" name="role{{ $loop->index }}" value="moderator" checked="">
+                    <label for="role_moderator{{ $loop->index }}" class="custom-control-label">{{ @trans('adminlte::weevent.moderator') }}</label>
+                  </div>
+                  {{-- <input type="text" wire:model.defer="participants.{{ $loop->index }}.role" class="form-control" placeholder="{{ @trans('adminlte::weevent.role_placeholder') }} ..."> --}}
+                  @error("participants.{$loop->index}.role")<small class="form-text text-danger">{{ $errors->first("participants.{$loop->index}.role") }}</small>@enderror
+                </div>
+              </div>
+
+              {{-- photo --}}
+              <div class="col-2 col-sm-1 align-self-center d-flex justify-content-center">
+                <style>
+                  /* photo */
+                  .center {
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  }
+
+                  .form-input {
+                    width: 40px;
+                    height: 40px;
+                  }
+
+                  .form-input input {
+                    display: none;
+                  }
+
+                  .form-input label {
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    line-height: 50px;
+                    text-align: center;
+                    background-color: #333;
+                    font-size: 18px;
+                    cursor: pointer;
+                    color: #fff;
+                    border-radius: 50%;
+                  }
+
+                  .preview {
+                    position: absolute;
+                    top: 0;
+                    height: 40px;
+                    width: 40px;
+                    margin: auto;
+                    background-size: cover;
+                    border: solid 1px #d3d3d3;
+                  }
+
+                  .form-input img {
+                    width: 100%;
+                    height: 100%;
+                    display: none;
+
+                  }
+
+                </style>
+
+                <div class="form-group">
+                  <div class="center">
+                    <div class="form-input">
+                      <div id="profile-img-{{$loop->index}}-preview" class="d-flex justify-content-center preview image-hover" onclick="clickFileUpload({{$loop->index}})" style="background-image: url('{{$participants[$loop->index]['photo']}}')">
+                        {{-- <div id="profile-img-{{$loop->index}}-preview" class="d-flex justify-content-center preview image-hover" onclick="clickFileUpload({{$loop->index}})" style="background-image: url('@if($participants[$loop->index]['photo']) {{$participants[$loop->index]['photo']}} @else https://d3kcv4e58tsh6h.cloudfront.net/images/default_user.jpg @endif')"> --}}
+                        <i class="fas fa-user align-self-center @if($participants[$loop->index]['photo']) d-none @endif" id="icon-{{$loop->index}}-preview"></i>
+                        <input type="file" id="input-file-{{$loop->index}}" wire:change="$emit('fileChoosen', '{{ $loop->index }}')" accept="image/*">
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <script>
+                  function limpaValor() {
+                    this.value = "";
+                  }
+
+                  function clickFileUpload(id) {
+                    inputFile = document.getElementById('input-file-' + id);
+                    inputFile.click();
+                  }
+
+                </script>
+              </div>
+
+              {{-- actions --}}
+              <div class="col-2 col-sm-1">
+                <a href="#" wire:click.prevent="addParticipant()" class="btn p-0 text-gray @if(!$this->canAddMoreParticipants()) disabled @endif"><i class="fas fa-user-plus"></i></a>
+                @if ($loop->index > 0)
+                <a href="#" wire:click.prevent="removeParticipant({{ $loop->index }})" class="btn p-0 text-gray"><i class="fas fa-user-minus"></i></a>
+                @endif
+              </div>
+
+            </div>
+
+            @endforeach
+
+          </div>
+          <!-- /.card-body -->
+        </div>
 
       </div>
-    </form>
-
-
-  </div>
-</div>
-
-{{--
-  @if (session()->has('message'))
-    <div class="alert alert-success">
-      {{ session('message') }}
-</div>
-@endif
-
-<form wire:submit.prevent="submit">
-
-  <div>
-
-    @if ($step == 0)
-    <div class="form-group">
-      <label for="name">Name</label>
-      <input type="text" class="form-control" wire:model.lazy="name" placeholder="Name">
-
-      @error('name')<small class="form-text text-danger">{{ $message }}</small>@enderror
-
-      <label for="email">Email</label>
-      <input type="email" class="form-control" wire:model.lazy="email" placeholder="email">
-
-      @error('email')<small class="form-text text-danger">{{ $message }}</small>@enderror
-    </div>
-
-    @endif
-
-    @if ($step == 1)
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input type="email" class="form-control" wire:model.lazy="email" placeholder="email">
-
-      @error('email')<small class="form-text text-danger">{{ $message }}</small>@enderror
-    </div>
-    @endif
-
-    @if ($step == 2)
-    <div class="form-group">
-      <label for="color">Favorite color</label>
-      <input type="text" class="form-control" wire:model.lazy="color" placeholder="Favorite color">
-
-      @error('color')<small class="form-text text-danger">{{ $message }}</small>@enderror
-    </div>
-    @endif
-
-    @if ($step > 2)
-    <div class="card">
-      <div class="card-body">
-        <h4 class="card-title">Thank you for information</h4>
-        <p class="card-text">Welcome to webdevmatics {{ $this->name }}. Happy learning and
-          Subscribe!</p>
-        <a href="/">Go to home</a>
+      <div class="tab-pane fade @if ($step == 1) active show @endif" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation
+          +1
+          labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft
+          beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad
+          vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar
+          helvetica
+          VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson
+          8-bit, sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party
+          scenester
+          stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</p>
+      </div>
+      <div class="tab-pane fade @if ($step == 2) active show @endif" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+        <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro
+          fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone
+          skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings
+          gentrify squid 8-bit cred pitchfork. Williamsburg banh mi whatever gluten-free, carles pitchfork
+          biodiesel
+          fixie etsy retro mlkshk vice blog. Scenester cred you probably haven't heard of them, vinyl craft beer
+          blog stumptown. Pitchfork sustainable tofu synth chambray yr.</p>
       </div>
     </div>
-    @endif
-  </div>
 
-  <div class="mt-2">
+    <div>
 
-    @if ($step > 0 && $step <= 2) <button type="button" wire:click="decreaseStep" class="btn btn-secondary mr-3">Back</button>
-      @endif
-
-      @if ($step <= 2) <button type="submit" class="btn btn-success">Next</button>
+      @if ($step > 0 && $step <= 2) <button type="button" wire:click="decreaseStep" class="btn btn-secondary mr-3">Back</button>
         @endif
 
-  </div>
+        @if ($step <= 2) <button type="button" wire:click="next" class="btn btn-info">Next</button>
+          @endif
+          {{-- @if ($step <= 2) <button type="submit" class="btn btn-info">Next</button>
+            @endif --}}
+          <button type="submit">Save Contact</button>
 
-</form> --}}
+    </div>
+  </form>
+
+
+</div>
+</div>
 
 @push('js')
 
