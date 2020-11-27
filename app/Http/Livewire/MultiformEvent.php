@@ -11,14 +11,11 @@ class MultiformEvent extends Component
 {
     use WithFileUploads;
 
-    public $photo;
-
     // informações básicas
     public $title = '';
     public $video_platform = 'youtube';
     public $video_id = '';
     // public $dtTranslations = Lang::get('adminlte::datatables');
-
 
     // Apresentadores e colaboradores
     public $participants = array(
@@ -54,15 +51,6 @@ class MultiformEvent extends Component
         'fileUpload' => 'handleFileUpload'
     ];
 
-    // protected $rules = [
-    //     'title' => 'required|min:4',
-    //     'video_id' => 'required',
-    //     'participants.*.full_name' => 'required',
-    //     'participants.*.email' => 'required',
-    //     'participants.*.role' => 'required',
-    //     'participants.*.photo' => 'required',
-    // ];
-
     protected $rulesStepsSessions = [
         'information' => [
             'basic' => [
@@ -80,17 +68,6 @@ class MultiformEvent extends Component
         ],
     ];
 
-    // protected $messages = [
-    //     'participants.*.full_name.required' => 'Nome obrigatório',
-    //     'participants.*.email.required' => 'Email obrigatório',
-    //     'participants.*.role.required' => 'Função obrigatória',
-    //     'participants.*.photo.required' => 'Foto obrigatória'
-    // ];
-
-    protected $validationAttributes = [
-        'participants.*.photo' => 'photo'
-    ];
-
     public function render()
     {
         return view('livewire.multiform-event');
@@ -100,9 +77,6 @@ class MultiformEvent extends Component
         $this->participants[0]['full_name'] = Auth::user()->name;
         $this->participants[0]['email'] = Auth::user()->email;
         $this->participants[0]['role'] = 'presenter';
-        // Primeiro verificamos se há algum valor antigo para os elementos do formulário que queremos renderizar.
-        // Quando um usuário enviou um formulário com valores que não passaram na validação, exibimos esses valores antigos.
-        // $this->participants = old('http_client_participants', $this->participants);
     }
 
     public function jumpToStep($step) {
@@ -115,7 +89,6 @@ class MultiformEvent extends Component
 
     public function cancelEdit($stepName, $sessionName) {
         $this->steps_active_session[$stepName] = '';
-        // $this->validateSessionStep($stepName, $sessionName);
     }
 
     public function validateSessionStep($stepName, $sessionName) {
@@ -147,36 +120,6 @@ class MultiformEvent extends Component
         $this->validateSessionStep('information', 'transmission');
     }
 
-    protected function validateInformation() {
-        // $this->stepsValidated['information'] = false;
-
-        // $this->validate([
-        //         'title' => 'required|min:4',
-        //         'video_id' => 'required',
-        //         'participants.*.full_name' => 'required',
-        //         'participants.*.email' => 'required',
-        //         'participants.*.role' => 'required',
-        //         'participants.*.photo' => 'required',
-        //     ],
-        //     [
-        //         // 'participants.*.full_name.required' => trans('adminlte::weevent.full_name_required'),
-        //         // 'participants.*.email.required' => trans('adminlte::weevent.email_name_required'),
-        //         // 'participants.*.role.required' => trans('adminlte::weevent.role_name_required'),
-        //         // 'participants.*.photo.required' => trans('adminlte::weevent.photo_name_required'),
-        //     ],
-        //     [
-        //         'participants.*.full_name' => trans('adminlte::weevent.full_name'),
-        //         'participants.*.email' => trans('adminlte::weevent.email'),
-        //         'participants.*.role' => trans('adminlte::weevent.role'),
-        //         'participants.*.photo' => trans('adminlte::weevent.photo'),
-        //     ]
-        // );
-
-        if(count($this->stepsValidated['information'] == 3)) {
-            $this->step++;
-        }
-    }
-
     public function submit() {
         $this->validateInformation();
 
@@ -190,11 +133,9 @@ class MultiformEvent extends Component
     }
 
     public function next1() {
-        $this->validateInformation();
-
-        // $this->validate();
-
-        $this->step++;
+        if(count($this->stepsValidated['information'] == 3)) {
+            $this->step++;
+        }
     }
 
     public function next2() {
@@ -233,16 +174,6 @@ class MultiformEvent extends Component
     public function removeParticipant(int $i): void
     {
         unset($this->participants[$i]);
-
-        // array_values — Retorna todos os valores de um array
-        // não precisa porque unset já faz isso
-        // $this->participants = array_values($this->participants);
-
-        // a validação será feita na confirmação da sessão
-        // if($this->getErrorBag()->messages()) {
-        //     // $this->validate();
-        //     $this->validateInformation();
-        // }
     }
 
     /**

@@ -175,6 +175,7 @@
       </li>
     </ul>
 
+
     {{-- <form id="frmEvent" method="POST" action="{{ route('event.store') }}">
     @csrf --}}
     <form wire:submit.prevent="submit" style="margin-top: 7px;" id="frmEvent">
@@ -205,8 +206,7 @@
                 @endif
                 @endif
                 {{-- cancel / confirm --}}
-                {{-- <button type="button" class="btn btn-default btn-sm mr-2" style="@if($step == 0 && $steps_active_session['information'] != 'basic') display: none; @endif" wire:click="cancelEdit('information', 'basic')" wire:loading.attr="disabled">Cancelar</button> --}}
-                <button type="button" class="btn btn-default btn-sm mr-2" style="@if($step == 0 && $steps_active_session['information'] != 'basic') display: none; @endif" wire:click="$emit('cancelEdit')" wire:loading.attr="disabled">Cancelar</button>
+                <button type="button" class="btn btn-default btn-sm mr-2" style="@if($step == 0 && $steps_active_session['information'] != 'basic') display: none; @endif" wire:click="$emit('cancelEdit', 'information', 'basic')" wire:loading.attr="disabled">Cancelar</button>
                 <button type="button" class="btn bg-success btn-sm" style="@if($step == 0 && $steps_active_session['information'] != 'basic') display: none; @endif" disabled wire:click="validateInformationBasic" wire:loading.attr="disabled">Confirmar</button>
                 {{-- edit --}}
                 <button type="button" class="btn btn-default btn-sm btn-tools-circle" style="@if($step == 0 && $steps_active_session['information'] == 'basic') display: none; @endif" data-card-widget="collapse" wire:loading.attr="disabled" @if ($step==0 && $steps_active_session['information'] !='' ) disabled @endif><i class="fal fa-pencil"></i></button>
@@ -219,7 +219,7 @@
                 <div class="col-sm-12">
                   <div class="form-group label-floating is-empty">
                     <label>{{ trans('adminlte::weevent.title_of_event') }}</label>
-                    <input id="inputTitle" value="{{ $title }}" wire:model.defer="title" type="text" class="form-control" placeholder="{{trans('adminlte::weevent.title_placeholder')}} ...">
+                    <input wire:model.defer="title" value="{{$title}}" type="text" class="form-control" placeholder="{{trans('adminlte::weevent.title_placeholder')}} ...">
                     @error('title')<small class="form-text text-danger">{{ $message }}</small>@enderror
                   </div>
                 </div>
@@ -256,7 +256,7 @@
               {{-- card-tools --}}
               <div class="card-tools">
                 {{-- cancel / confirm --}}
-                <button type="button" class="btn btn-default btn-sm mr-2" style="@if($step == 0 && $steps_active_session['information'] != 'participants') display: none; @endif" wire:click="cancelEdit('information', 'participants')" wire:loading.attr="disabled">Cancelar</button>
+                <button type="button" class="btn btn-default btn-sm mr-2" style="@if($step == 0 && $steps_active_session['information'] != 'participants') display: none; @endif" wire:click="$emit('cancelEdit', 'information', 'participants')" wire:loading.attr="disabled">Cancelar</button>
                 <button type="button" class="btn bg-success btn-sm" style="@if($step == 0 && $steps_active_session['information'] != 'participants') display: none; @endif" disabled wire:click="validateInformationParticipants" wire:loading.attr="disabled">Confirmar</button>
                 {{-- edit --}}
                 <button type="button" class="btn btn-default btn-sm btn-tools-circle" style="@if($step == 0 && $steps_active_session['information'] == 'participants') display: none; @endif" data-card-widget="collapse" wire:loading.attr="disabled" @if ($step==0 && $steps_active_session['information'] !='' ) disabled @endif><i class="fal fa-pencil"></i></button>
@@ -311,7 +311,7 @@
                 </div>
                 <div class="col-8 col-sm-3">
                   <div class="form-group">
-                    <input type="text" wire:model.defer="participants.{{ $loop->index }}.full_name" class="form-control-sm w-100" placeholder="{{ @trans('adminlte::weevent.full_name_placeholder') }} ...">
+                    <input type="text" wire:model.defer="participants.{{ $loop->index }}.full_name" value="{{$participants[$loop->index]['full_name']}}" class="form-control-sm w-100" placeholder="{{ @trans('adminlte::weevent.full_name_placeholder') }} ...">
                     @error("participants.{$loop->index}.full_name")<small class="form-text text-danger">{{ $errors->first("participants.{$loop->index}.full_name") }}</small>@enderror
                   </div>
                 </div>
@@ -322,7 +322,7 @@
                 </div>
                 <div class="col-8 col-sm-4">
                   <div class="form-group">
-                    <input type="text" wire:model.defer="participants.{{ $loop->index }}.email" class="form-control-sm w-100" placeholder="{{ @trans('adminlte::weevent.email_placeholder') }} ...">
+                    <input type="text" wire:model.defer="participants.{{ $loop->index }}.email" value="{{$participants[$loop->index]['email']}}" class="form-control-sm w-100" placeholder="{{ @trans('adminlte::weevent.email_placeholder') }} ...">
                     @error("participants.{$loop->index}.email")<small class="form-text text-danger">{{ $errors->first("participants.{$loop->index}.email") }}</small>@enderror
                   </div>
                 </div>
@@ -331,14 +331,13 @@
                 <div class="col-8 col-sm-3">
                   <div class="form-row">
                     <div class="custom-control custom-radio mr-2">
-                      <input wire:model.defer="participants.{{ $loop->index }}.role" class="custom-control-input" type="radio" id="role_presenter{{ $loop->index }}" name="role{{ $loop->index }}" value="presenter" checked="">
-                      <label for="role_presenter{{ $loop->index }}" class="custom-control-label">{{ @trans('adminlte::weevent.presenter') }}</label>
+                      <input wire:model.defer="participants.{{ $loop->index }}.role" class="custom-control-input" type="radio" id="role_presenter_{{ $loop->index }}" name="role{{ $loop->index }}" value="presenter" checked="">
+                      <label for="role_presenter_{{ $loop->index }}" class="custom-control-label">{{ @trans('adminlte::weevent.presenter') }}</label>
                     </div>
                     <div class="custom-control custom-radio">
-                      <input wire:model.defer="participants.{{ $loop->index }}.role" class="custom-control-input" type="radio" id="role_moderator{{ $loop->index }}" name="role{{ $loop->index }}" value="moderator" checked="">
-                      <label for="role_moderator{{ $loop->index }}" class="custom-control-label">{{ @trans('adminlte::weevent.moderator') }}</label>
+                      <input wire:model.defer="participants.{{ $loop->index }}.role" class="custom-control-input" type="radio" id="role_moderator_{{ $loop->index }}" name="role{{ $loop->index }}" value="moderator" checked="">
+                      <label for="role_moderator_{{ $loop->index }}" class="custom-control-label">{{ @trans('adminlte::weevent.moderator') }}</label>
                     </div>
-                    {{-- <input type="text" wire:model.defer="participants.{{ $loop->index }}.role" class="form-control" placeholder="{{ @trans('adminlte::weevent.role_placeholder') }} ..."> --}}
                     @error("participants.{$loop->index}.role")<small class="form-text text-danger">{{ $errors->first("participants.{$loop->index}.role") }}</small>@enderror
                   </div>
                 </div>
@@ -401,7 +400,7 @@
                         <div class="form-input">
                           <div id="profile-img-{{$loop->index}}-preview" class="d-flex justify-content-center preview image-hover" onclick="clickFileUpload({{$loop->index}})" style="background-image: url('{{$participants[$loop->index]['photo']}}')">
                             <i class="fal fa-user align-self-center @if($participants[$loop->index]['photo']) d-none @endif" id="icon-{{$loop->index}}-preview"></i>
-                            <input type="file" id="input-file-{{$loop->index}}" wire:change="$emit('fileChoosen', '{{ $loop->index }}')" accept="image/*">
+                            <input type="file" id="input-file-{{$loop->index}}" value="{{$participants[$loop->index]['photo']}}" data-property-name="participants.{{$loop->index}}.photo" wire:change="$emit('fileChoosen', '{{ $loop->index }}')" accept="image/*">
                           </div>
                         </div>
                       </div>
@@ -487,7 +486,7 @@
                 <div class="col-md-7 col-lg-4">
                   <div class="form-group">
                     <label>{{ trans('adminlte::weevent.platform_video_id', ['platform' => $video_platform]) }}</label>
-                    <input wire:model.defer="video_id" type="text" class="form-control" placeholder="{{trans('adminlte::weevent.video_identifier')}} ...">
+                    <input wire:model.defer="video_id" value="{{$video_id}}" type="text" class="form-control" placeholder="{{trans('adminlte::weevent.video_identifier')}} ...">
                     @error('video_id')<small class="form-text text-danger">{{ $message }}</small>@enderror
                   </div>
                 </div>
@@ -555,17 +554,43 @@
   // verifica se algum input está vazio para habilitar o botão confirmar
   function validateInputs() {
     let btnOk = document.querySelector('.bg-success:not([style*="display: none"])');
+    let inputs = [];
+    //   'file' => []
+    //   , 'radio' => []
+    //   , 'checkbox' => []
+    //   , 'other' => []
+    // ];
     if (btnOk) {
-      let wrapper = btnOk.parentElement.parentElement.parentElement;
-      let inputs = [...wrapper.querySelectorAll('input')];
+      btnOk.parentElement.parentElement.parentElement.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', validate);
+        inputs.push(input);
+      });
 
       function validate() {
-        let isIncomplete = inputs.some(input => !input.value);
+        let isIncomplete = false;
+        // let inputs = [];
+        // let btnOk = document.querySelector('.bg-success:not([style*="display: none"])');
+        // btnOk.parentElement.parentElement.parentElement.querySelectorAll('input').forEach(input => {
+        //   inputs.push(input);
+        // });
+        function containsBlankField(input, index, arr) {
+          if (!input.value && input.type != 'file' && input.type != 'radio' && input.type != 'checkbox') {
+            return true
+          } else if (input.type == 'file' && !input.defaultValue) {
+            return true
+          } else if (input.type == 'radio') {
+            let nameGroup = input.name;
+            return inputs.every(input => input.type == 'radio' && input.name == nameGroup && !input.cheched);
+          }
+        }
+        // isIncomplete = inputs.some(input => !input.value && input.type != 'file' && input.type != 'radio');
+        // isIncomplete = isIncomplete || inputs.some(input => input.type == 'file' && !input.defaultValue);
+        // isIncomplete = isIncomplete || inputs.some(input => input.type == 'radio' && !input.cheched);
+        isIncomplete = inputs.some(containsBlankField);
         btnOk.disabled = isIncomplete;
         btnOk.style.cursor = isIncomplete ? 'not-allowed' : 'pointer';
       }
 
-      wrapper.addEventListener('input', validate);
       validate();
     }
   }
@@ -585,7 +610,9 @@
       }
     });
 
-    Livewire.on('cancelEdit', async () => {
+    // value="{{ $title }}"
+    // reset form / rollback original values
+    Livewire.on('cancelEdit', (stepName, sessionName) => {
       document.getElementById('frmEvent').reset();
 
       let btnOk = document.querySelector('.bg-success:not([style*="display: none"])');
@@ -594,12 +621,13 @@
 
       inputs.forEach(input => {
         let propName = input.getAttribute('wire:model') ||
-          document.getElementById('inputTitle').getAttribute('wire:model.lazy') ||
-          document.getElementById('inputTitle').getAttribute('wire:model.defer');
+          input.getAttribute('wire:model.lazy') ||
+          input.getAttribute('wire:model.defer') ||
+          input.getAttribute('data-property-name');
         @this[propName] = input.value;
       });
 
-      await @this.cancelEdit('information', 'basic');
+      @this.cancelEdit(stepName, sessionName);
     });
   });
 
