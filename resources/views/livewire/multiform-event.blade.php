@@ -1,157 +1,10 @@
 @push('css')
 {{-- site de onde peguei o efeito de passar sobre as fotos --}}
 {{-- https://codepen.io/dig-lopes/pen/WLVGda?editors=1100 --}}
+{{-- css está em 'resources/css/livewire/multiform-event.css' --}}
 
-<style>
-  .label-step {
-    color: #9e9e9e;
-    font-size: 0.8rem;
-  }
-
-  .nav-pills .nav-link.active,
-  .nav-pills .show>.nav-link {
-    color: #fff;
-    background-color: #26bdde;
-  }
-
-  .nav-pills .nav-link:not(.active):hover {
-    color: #9e9e9e;
-  }
-
-  .nav-tabs-custom .nav-link {
-    border-radius: 100%;
-    /* width: 3.125rem;
-    height: 3.125rem; */
-    width: 2.5rem;
-    height: 2.5rem;
-    text-align: center;
-    display: -webkit-box;
-    display: flex;
-    -webkit-box-pack: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    align-items: center;
-    background: #fff;
-    color: #9e9e9e;
-    border: 1px solid #e0e0e0;
-    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, .025);
-    position: relative;
-    font-size: 1.3125rem;
-    line-height: 0.5;
-  }
-
-  .nav-tabs-custom .nav-link.active:before {
-    -webkit-transition: opacity .3s ease-in-out;
-    transition: opacity .3s ease-in-out;
-    border-radius: 100%;
-    content: "";
-    /* width: 3.5rem;
-    height: 3.5rem; */
-    width: 2.9rem;
-    height: 2.9rem;
-    position: absolute;
-    top: -.25rem;
-    left: -.25rem;
-    border-width: .25rem;
-    border-style: solid;
-    box-shadow: 0 0 10px 5px rgba(0, 0, 0, .075);
-    opacity: 1;
-    border-color: #fff;
-  }
-
-  /* botton line */
-  .nav-tabs-custom .nav-item {
-    position: relative;
-  }
-
-  .nav-justified .nav-item {
-    -ms-flex-preferred-size: 0;
-    flex-basis: 0;
-    -ms-flex-positive: 1;
-    flex-grow: 1;
-    text-align: center;
-  }
-
-  .nav-tabs .nav-item {
-    margin-bottom: -1px;
-  }
-
-  .nav-tabs .nav-item.show .nav-link,
-  .nav-tabs .nav-link.active {
-    color: #495057;
-    background-color: #fff;
-    border-color: #dee2e6 #dee2e6 #fff;
-  }
-
-  .nav-tabs .nav-link,
-  .nav-pills .nav-link {
-    font-family: "Roboto", sans-serif;
-    color: #1d1e3a;
-    font-size: 14px;
-  }
-
-  .nav-tabs .nav-link {
-    border: 1px solid transparent;
-    border-top-left-radius: .25rem;
-    border-top-right-radius: .25rem;
-  }
-
-  .nav-tabs-custom>li>a {
-    color: #1d1e3a;
-  }
-
-  .nav-link {
-    display: block;
-    padding: .5rem 1rem;
-  }
-
-  .nav-tabs-custom>li:hover:after {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-
-  .nav-tabs-custom>li:after {
-    content: "";
-    background: #7fd3ec;
-    height: 2px;
-    position: absolute;
-    width: 100%;
-    left: 0;
-    bottom: -7px;
-    -webkit-transition: all 250ms ease 0s;
-    transition: all 250ms ease 0s;
-    -webkit-transform: scale(0);
-    transform: scale(0);
-  }
-
-  /* upload file */
-  .image-hover input[type='file'] {
-    /* display: none; */
-  }
-
-  .image-hover {
-    background: #dbdada;
-    border-radius: 50%;
-    color: #8b8989;
-    transition: .5s;
-  }
-
-  .image-hover::before {
-    background: #26bdde;
-    transition: .5s;
-    transform: scale(.9);
-    /* z-index: -1; */
-  }
-
-  .image-hover:hover {
-    color: #26bdde;
-    box-shadow: 0 0 8px #26bdde;
-    text-shadow: 0 0 2px #26bdde;
-  }
-
-</style>
-
-<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.min.js" defer></script>
+{{-- ainda não uso alpine --}}
+{{-- <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.min.js" defer></script> --}}
 @endpush
 
 <div class="row m-0 p-0">
@@ -175,9 +28,6 @@
       </li>
     </ul>
 
-
-    {{-- <form id="frmEvent" method="POST" action="{{ route('event.store') }}">
-    @csrf --}}
     <form wire:submit.prevent="submit" style="margin-top: 7px;" id="frmEvent">
 
       <div class="tab-content">
@@ -200,13 +50,14 @@
                 @if($step == 0 && $steps_active_session['information'] != 'basic')
                 {{-- verifica se a sessão basic é válida --}}
                 @if(in_array('basic',$stepsValidated['information']))
-                <span class="text-success">Configurada</span>
+                <span class="text-success">{{ trans('adminlte::weevent.configured') }}</span>
                 @else
-                <span class="text-danger">Não configurada</span>
+                <span class="text-danger">{{ trans('adminlte::weevent.no_configured') }}</span>
                 @endif
                 @endif
+
                 {{-- cancel / confirm --}}
-                <button type="button" class="btn btn-default btn-sm mr-2" style="@if($step == 0 && $steps_active_session['information'] != 'basic') display: none; @endif" wire:click="$emit('cancelEdit', 'information', 'basic')" wire:loading.attr="disabled">Cancelar</button>
+                <button type="button" class="btn btn-default btn-sm mr-2" style="@if($step == 0 && $steps_active_session['information'] != 'basic') display: none; @endif" wire:click="cancelEditBasic" wire:loading.attr="disabled">Cancelar</button>
                 <button type="button" class="btn bg-success btn-sm" style="@if($step == 0 && $steps_active_session['information'] != 'basic') display: none; @endif" disabled wire:click="validateInformationBasic" wire:loading.attr="disabled">Confirmar</button>
                 {{-- edit --}}
                 <button type="button" class="btn btn-default btn-sm btn-tools-circle" style="@if($step == 0 && $steps_active_session['information'] == 'basic') display: none; @endif" data-card-widget="collapse" wire:loading.attr="disabled" @if ($step==0 && $steps_active_session['information'] !='' ) disabled @endif><i class="fal fa-pencil"></i></button>
@@ -255,8 +106,18 @@
 
               {{-- card-tools --}}
               <div class="card-tools">
+                {{-- quantidade de participantes --}}
+                @if($step == 0 && $steps_active_session['information'] != 'participants')
+                {{-- verifica se a sessão participants é válida --}}
+                @if(in_array('participants',$stepsValidated['information']))
+                <span class="text-success">{{ trans_choice('adminlte::weevent.how_many_participant', count($participants)) }}</span>
+                @else
+                <span class="text-danger">{{ trans_choice('adminlte::weevent.how_many_participant', count($participants)) }}</span>
+                @endif
+                @endif
+
                 {{-- cancel / confirm --}}
-                <button type="button" class="btn btn-default btn-sm mr-2" style="@if($step == 0 && $steps_active_session['information'] != 'participants') display: none; @endif" wire:click="$emit('cancelEdit', 'information', 'participants')" wire:loading.attr="disabled">Cancelar</button>
+                <button type="button" class="btn btn-default btn-sm mr-2" style="@if($step == 0 && $steps_active_session['information'] != 'participants') display: none; @endif" wire:click="cancelEditParticipants" wire:loading.attr="disabled">Cancelar</button>
                 <button type="button" class="btn bg-success btn-sm" style="@if($step == 0 && $steps_active_session['information'] != 'participants') display: none; @endif" disabled wire:click="validateInformationParticipants" wire:loading.attr="disabled">Confirmar</button>
                 {{-- edit --}}
                 <button type="button" class="btn btn-default btn-sm btn-tools-circle" style="@if($step == 0 && $steps_active_session['information'] == 'participants') display: none; @endif" data-card-widget="collapse" wire:loading.attr="disabled" @if ($step==0 && $steps_active_session['information'] !='' ) disabled @endif><i class="fal fa-pencil"></i></button>
@@ -443,7 +304,7 @@
           </div>
 
           {{-- Information - Transmission --}}
-          <div class="card collapsed-card" data-active-session="transmission" id="cardStep_0_Transmission">
+          <div class="card @if ($step == 0 && $steps_active_session['information'] != 'transmission') collapsed-card @endif" data-active-session="transmission" id="cardStep_0_Transmission">
 
             <!-- card-header (Transmission) -->
             <div class="card-header without-border">
@@ -455,9 +316,20 @@
 
               <!-- card-tools -->
               <div class="card-tools">
-                {{-- <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fal @if ($step == 0 && $steps_active_session['information'] != 'transmission') fa-plus @else fa-minus @endif"></i> --}}
-                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fal fa-minus"></i>
-                </button>
+                @if($step == 0 && $steps_active_session['information'] != 'transmission')
+                {{-- verifica se a sessão transmission é válida --}}
+                @if(in_array('transmission',$stepsValidated['information']))
+                <span class="text-success">{{ $video_platform }}</span>
+                @else
+                <span class="text-danger">{{ trans('adminlte::weevent.no_configured') }}</span>
+                @endif
+                @endif
+
+                {{-- cancel / confirm --}}
+                <button type="button" class="btn btn-default btn-sm mr-2" style="@if($step == 0 && $steps_active_session['information'] != 'transmission') display: none; @endif" wire:click="cancelEditTransmission" wire:loading.attr="disabled">Cancelar</button>
+                <button type="button" class="btn bg-success btn-sm" style="@if($step == 0 && $steps_active_session['information'] != 'transmission') display: none; @endif" disabled wire:click="validateInformationTransmission" wire:loading.attr="disabled">Confirmar</button>
+                {{-- edit --}}
+                <button type="button" class="btn btn-default btn-sm btn-tools-circle" style="@if($step == 0 && $steps_active_session['information'] == 'transmission') display: none; @endif" data-card-widget="collapse" wire:loading.attr="disabled" @if ($step==0 && $steps_active_session['information'] !='' ) disabled @endif><i class="fal fa-pencil"></i></button>
               </div>
             </div>
 
@@ -526,8 +398,6 @@
           @endif
           @if ($step <= 2) <button type="button" wire:click="next" class="btn btn-info" @if($steps_active_session['information'] !='' || count($stepsValidated['information']) <> 3) disabled @endif>Next</button>
             @endif
-            {{-- @if ($step <= 2) <button type="submit" class="btn btn-info">Next</button>
-            @endif --}}
 
       </div>
     </form>
@@ -554,25 +424,19 @@
   // verifica se algum input está vazio para habilitar o botão confirmar
   function validateInputs() {
     let btnOk = document.querySelector('.bg-success:not([style*="display: none"])');
-    let inputs = [];
-    //   'file' => []
-    //   , 'radio' => []
-    //   , 'checkbox' => []
-    //   , 'other' => []
-    // ];
     if (btnOk) {
       btnOk.parentElement.parentElement.parentElement.querySelectorAll('input').forEach(input => {
         input.addEventListener('input', validate);
-        inputs.push(input);
       });
 
       function validate() {
         let isIncomplete = false;
-        // let inputs = [];
-        // let btnOk = document.querySelector('.bg-success:not([style*="display: none"])');
-        // btnOk.parentElement.parentElement.parentElement.querySelectorAll('input').forEach(input => {
-        //   inputs.push(input);
-        // });
+        let inputs = [];
+        let btnOk = document.querySelector('.bg-success:not([style*="display: none"])');
+        btnOk.parentElement.parentElement.parentElement.querySelectorAll('input').forEach(input => {
+          inputs.push(input);
+        });
+
         function containsBlankField(input, index, arr) {
           if (!input.value && input.type != 'file' && input.type != 'radio' && input.type != 'checkbox') {
             return true
@@ -583,9 +447,6 @@
             return inputs.every(input => input.type == 'radio' && input.name == nameGroup && !input.cheched);
           }
         }
-        // isIncomplete = inputs.some(input => !input.value && input.type != 'file' && input.type != 'radio');
-        // isIncomplete = isIncomplete || inputs.some(input => input.type == 'file' && !input.defaultValue);
-        // isIncomplete = isIncomplete || inputs.some(input => input.type == 'radio' && !input.cheched);
         isIncomplete = inputs.some(containsBlankField);
         btnOk.disabled = isIncomplete;
         btnOk.style.cursor = isIncomplete ? 'not-allowed' : 'pointer';
@@ -608,26 +469,6 @@
         }
         reader.readAsDataURL(file);
       }
-    });
-
-    // value="{{ $title }}"
-    // reset form / rollback original values
-    Livewire.on('cancelEdit', (stepName, sessionName) => {
-      document.getElementById('frmEvent').reset();
-
-      let btnOk = document.querySelector('.bg-success:not([style*="display: none"])');
-      let wrapper = btnOk.parentElement.parentElement.parentElement;
-      let inputs = [...wrapper.querySelectorAll('input')];
-
-      inputs.forEach(input => {
-        let propName = input.getAttribute('wire:model') ||
-          input.getAttribute('wire:model.lazy') ||
-          input.getAttribute('wire:model.defer') ||
-          input.getAttribute('data-property-name');
-        @this[propName] = input.value;
-      });
-
-      @this.cancelEdit(stepName, sessionName);
     });
   });
 

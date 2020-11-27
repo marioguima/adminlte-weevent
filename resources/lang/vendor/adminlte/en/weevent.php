@@ -30,4 +30,7 @@ return [
     'presenter'                   => 'Presenter',
     'moderator'                   => 'Moderator',
     'transmission'                => 'Transmission',
+    'how_many_participant'        => '{0} No participant|{1} One participant|[2,*] :count participants',
+    'configured'                  => 'Configured',
+    'no_configured'               => 'No configured',
 ];

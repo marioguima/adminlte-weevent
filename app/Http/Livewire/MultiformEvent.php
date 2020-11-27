@@ -13,11 +13,8 @@ class MultiformEvent extends Component
 
     // informações básicas
     public $title = '';
-    public $video_platform = 'youtube';
-    public $video_id = '';
-    // public $dtTranslations = Lang::get('adminlte::datatables');
 
-    // Apresentadores e colaboradores
+    // apresentadores e colaboradores
     public $participants = array(
         array('full_name' => '',
               'email' => '',
@@ -25,6 +22,25 @@ class MultiformEvent extends Component
               'photo' => '',
               )
     );
+
+    // transmissão
+    public $video_platform = '';
+    public $video_id = '';
+
+    // valores antigos/anterirores
+    // para voltar quando clicar em cancelar
+    public $old_values = [
+        'information' => [
+            'basic' => [
+                'title' => '',
+            ],
+            'participants' => [],
+            'transmission' => [
+                'video_platform' => '',
+                'video_id' => '',
+            ],
+        ],
+    ];
 
     public $step = 0;
 
@@ -74,9 +90,16 @@ class MultiformEvent extends Component
     }
 
     public function mount() {
+        // participants
         $this->participants[0]['full_name'] = Auth::user()->name;
         $this->participants[0]['email'] = Auth::user()->email;
         $this->participants[0]['role'] = 'presenter';
+
+        $this->old_values['information']['participants'] = $this->participants;
+
+        // video platform
+        $this->video_platform = 'youtube';
+        $this->old_values['information']['transmission']['video_platform'] = $this->video_platform;
     }
 
     public function jumpToStep($step) {
@@ -87,8 +110,24 @@ class MultiformEvent extends Component
         $this->step--;
     }
 
-    public function cancelEdit($stepName, $sessionName) {
+    public function cancelEdit($stepName) {
         $this->steps_active_session[$stepName] = '';
+    }
+
+    public function cancelEditBasic() {
+        $this->cancelEdit('information');
+        $this->title = $this->old_values['information']['basic']['title'];
+    }
+
+    public function cancelEditParticipants() {
+        $this->cancelEdit('information');
+        $this->participants = $this->old_values['information']['participants'];
+    }
+
+    public function cancelEditTransmission() {
+        $this->cancelEdit('information');
+        $this->video_platform = $this->old_values['information']['transmission']['video_platform'];
+        $this->video_id = $this->old_values['information']['transmission']['video_id'];
     }
 
     public function validateSessionStep($stepName, $sessionName) {
@@ -110,14 +149,18 @@ class MultiformEvent extends Component
 
     public function validateInformationBasic() {
         $this->validateSessionStep('information', 'basic');
+        $this->old_values['information']['basic']['title'] = $this->title;
     }
 
     public function validateInformationParticipants() {
         $this->validateSessionStep('information', 'participants');
+        $this->old_values['information']['participants'] = $this->participants;
     }
 
     public function validateInformationTransmission() {
         $this->validateSessionStep('information', 'transmission');
+        $this->old_values['information']['transmission']['video_platform'] = $this->video_platform;
+        $this->old_values['information']['transmission']['video_id'] = $this->video_id;
     }
 
     public function submit() {
@@ -133,7 +176,7 @@ class MultiformEvent extends Component
     }
 
     public function next1() {
-        if(count($this->stepsValidated['information'] == 3)) {
+        if(count($this->stepsValidated['information']) == 3) {
             $this->step++;
         }
     }
