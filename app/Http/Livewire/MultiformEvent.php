@@ -27,9 +27,21 @@ class MultiformEvent extends Component
               'role' => '',
               'photo' => '',
               )
-        );
+    );
 
     public $step = 0;
+
+    public $steps_active_session = [
+        'information' => 'basic',
+        'cta' => '',
+        'schedules' => '',
+    ];
+
+    public $stepsValidated = [
+        'information' => [],
+        'cta' => [],
+        'schedules' => [],
+    ];
 
     private $stepActions = [
         'next1',
@@ -38,15 +50,45 @@ class MultiformEvent extends Component
         'submit'
     ];
 
-    // Guarda a sessão que o usuário está em cada passo
-    public $steps_active_session = [
-        'information' => 'basic',
-        'scheduler' => '',
+    protected $listeners = [
+        'fileUpload' => 'handleFileUpload'
     ];
 
-    protected $listeners = [
-        'activeSession' => 'setActiveSession',
-        'fileUpload' => 'handleFileUpload'
+    // protected $rules = [
+    //     'title' => 'required|min:4',
+    //     'video_id' => 'required',
+    //     'participants.*.full_name' => 'required',
+    //     'participants.*.email' => 'required',
+    //     'participants.*.role' => 'required',
+    //     'participants.*.photo' => 'required',
+    // ];
+
+    protected $rulesStepsSessions = [
+        'information' => [
+            'basic' => [
+                'title' => 'required|min:4',
+            ],
+            'participants' => [
+                'participants.*.full_name' => 'required',
+                'participants.*.email' => 'required',
+                'participants.*.role' => 'required',
+                'participants.*.photo' => 'required',
+            ],
+            'transmission' => [
+                'video_id' => 'required',
+            ],
+        ],
+    ];
+
+    // protected $messages = [
+    //     'participants.*.full_name.required' => 'Nome obrigatório',
+    //     'participants.*.email.required' => 'Email obrigatório',
+    //     'participants.*.role.required' => 'Função obrigatória',
+    //     'participants.*.photo.required' => 'Foto obrigatória'
+    // ];
+
+    protected $validationAttributes = [
+        'participants.*.photo' => 'photo'
     ];
 
     public function render()
@@ -63,13 +105,6 @@ class MultiformEvent extends Component
         // $this->participants = old('http_client_participants', $this->participants);
     }
 
-    /**
-     * controla a sessão ativa em cada passo
-     */
-    public function setActiveSession($session) {
-        $this->steps_active_session[$this->step] = $session;
-    }
-
     public function jumpToStep($step) {
         $this->step = $step;
     }
@@ -78,13 +113,72 @@ class MultiformEvent extends Component
         $this->step--;
     }
 
-    public function submit() {
-        $this->validate([
-            'title' => 'required|min:4',
-            'video_id' => 'required',
-        ]);
+    public function cancelEdit($stepName, $sessionName) {
+        $this->steps_active_session[$stepName] = '';
+        // $this->validateSessionStep($stepName, $sessionName);
+    }
 
-        $this->step++;
+    public function validateSessionStep($stepName, $sessionName) {
+        $this->stepsValidated[$stepName] = array_diff($this->stepsValidated[$stepName], array($sessionName));
+
+        $this->validate($this->rulesStepsSessions[$stepName][$sessionName],
+            [],
+            [
+                'participants.*.full_name' => strtolower(trans('adminlte::weevent.full_name')),
+                'participants.*.email' => trans('adminlte::weevent.email'),
+                'participants.*.role' => trans('adminlte::weevent.role'),
+                'participants.*.photo' => trans('adminlte::weevent.photo'),
+            ]
+        );
+
+        array_push($this->stepsValidated[$stepName], $sessionName);
+        $this->steps_active_session[$stepName] = '';
+    }
+
+    public function validateInformationBasic() {
+        $this->validateSessionStep('information', 'basic');
+    }
+
+    public function validateInformationParticipants() {
+        $this->validateSessionStep('information', 'participants');
+    }
+
+    public function validateInformationTransmission() {
+        $this->validateSessionStep('information', 'transmission');
+    }
+
+    protected function validateInformation() {
+        // $this->stepsValidated['information'] = false;
+
+        // $this->validate([
+        //         'title' => 'required|min:4',
+        //         'video_id' => 'required',
+        //         'participants.*.full_name' => 'required',
+        //         'participants.*.email' => 'required',
+        //         'participants.*.role' => 'required',
+        //         'participants.*.photo' => 'required',
+        //     ],
+        //     [
+        //         // 'participants.*.full_name.required' => trans('adminlte::weevent.full_name_required'),
+        //         // 'participants.*.email.required' => trans('adminlte::weevent.email_name_required'),
+        //         // 'participants.*.role.required' => trans('adminlte::weevent.role_name_required'),
+        //         // 'participants.*.photo.required' => trans('adminlte::weevent.photo_name_required'),
+        //     ],
+        //     [
+        //         'participants.*.full_name' => trans('adminlte::weevent.full_name'),
+        //         'participants.*.email' => trans('adminlte::weevent.email'),
+        //         'participants.*.role' => trans('adminlte::weevent.role'),
+        //         'participants.*.photo' => trans('adminlte::weevent.photo'),
+        //     ]
+        // );
+
+        if(count($this->stepsValidated['information'] == 3)) {
+            $this->step++;
+        }
+    }
+
+    public function submit() {
+        $this->validateInformation();
 
         // $action = $this->stepActions[$this->step];
         // $this->$action();
@@ -96,10 +190,9 @@ class MultiformEvent extends Component
     }
 
     public function next1() {
-        $this->validate([
-            'title' => 'required|min:4',
-            'video_id' => 'required',
-        ]);
+        $this->validateInformation();
+
+        // $this->validate();
 
         $this->step++;
     }
@@ -142,7 +235,14 @@ class MultiformEvent extends Component
         unset($this->participants[$i]);
 
         // array_values — Retorna todos os valores de um array
-        $this->participants = array_values($this->participants);
+        // não precisa porque unset já faz isso
+        // $this->participants = array_values($this->participants);
+
+        // a validação será feita na confirmação da sessão
+        // if($this->getErrorBag()->messages()) {
+        //     // $this->validate();
+        //     $this->validateInformation();
+        // }
     }
 
     /**

@@ -22,7 +22,6 @@
 
 <livewire:multiform-event></livewire:multiform-event>
 
-
 {{-- <div class="card">
     <!-- /.card-header -->
     <div class="card-body">
