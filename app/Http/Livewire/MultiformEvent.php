@@ -27,6 +27,10 @@ class MultiformEvent extends Component
     public $video_platform = '';
     public $video_id = '';
 
+    // offers
+    public $offers = [
+    ];
+
     // valores antigos/anterirores
     // para voltar quando clicar em cancelar
     public $old_values = [
@@ -40,19 +44,22 @@ class MultiformEvent extends Component
                 'video_id' => '',
             ],
         ],
+        'live' => [
+            'offers' => [],
+        ],
     ];
 
-    public $step = 0;
+    public $step = 1;
 
-    public $steps_active_session = [
-        'information' => 'basic',
-        'cta' => '',
+    public $active_step_session = [
+        'information' => '',
+        'live' => '',
         'schedules' => '',
     ];
 
     public $stepsValidated = [
-        'information' => [],
-        'cta' => [],
+        'information' => ['basic', 'participants', 'transmission'],
+        'live' => [],
         'schedules' => [],
     ];
 
@@ -74,7 +81,7 @@ class MultiformEvent extends Component
             ],
             'participants' => [
                 'participants.*.full_name' => 'required',
-                'participants.*.email' => 'required',
+                'participants.*.email' => 'required|email',
                 'participants.*.role' => 'required',
                 'participants.*.photo' => 'required',
             ],
@@ -100,6 +107,10 @@ class MultiformEvent extends Component
         // video platform
         $this->video_platform = 'youtube';
         $this->old_values['information']['transmission']['video_platform'] = $this->video_platform;
+
+        // offers
+        $this->addOffer();
+        $this->old_values['live']['offers'] = $this->offers;
     }
 
     public function jumpToStep($step) {
@@ -110,21 +121,25 @@ class MultiformEvent extends Component
         $this->step--;
     }
 
-    public function cancelEdit($stepName) {
-        $this->steps_active_session[$stepName] = '';
+    public function changeActiveStepSession($stepName, $sessionName)  {
+        $this->active_step_session[$stepName] = $sessionName;
     }
 
-    public function cancelEditBasic() {
+    public function cancelEdit($stepName) {
+        $this->changeActiveStepSession($stepName, '');
+    }
+
+    public function cancelEditInformationBasic() {
         $this->cancelEdit('information');
         $this->title = $this->old_values['information']['basic']['title'];
     }
 
-    public function cancelEditParticipants() {
+    public function cancelEditInformationParticipants() {
         $this->cancelEdit('information');
         $this->participants = $this->old_values['information']['participants'];
     }
 
-    public function cancelEditTransmission() {
+    public function cancelEditInformationTransmission() {
         $this->cancelEdit('information');
         $this->video_platform = $this->old_values['information']['transmission']['video_platform'];
         $this->video_id = $this->old_values['information']['transmission']['video_id'];
@@ -144,7 +159,7 @@ class MultiformEvent extends Component
         );
 
         array_push($this->stepsValidated[$stepName], $sessionName);
-        $this->steps_active_session[$stepName] = '';
+        $this->changeActiveStepSession($stepName, '');
     }
 
     public function validateInformationBasic() {
@@ -225,6 +240,33 @@ class MultiformEvent extends Component
     public function canAddMoreParticipants(): bool
     {
         return count($this->participants) < 6;
+    }
+
+    public function cancelEditLiveOffers() {
+        $this->cancelEdit('live');
+        $this->title = $this->old_values['live']['offers'];
+    }
+
+    /**
+     * Adiciona oferta / offer
+     */
+    public function addOffer(): void
+    {
+        array_push($this->offers, array('name' => '',
+                                        'headline' => '',
+                                        'text_inside_the_button' => '',
+                                        'button_link' => '',
+            )
+        );
+    }
+
+    /**
+     * Aqui, removeremos o item com a chave fornecida
+     * da matriz de ofertas, então uma linha renderizada desaparece.
+     */
+    public function removeOffer(int $i): void
+    {
+        unset($this->offers[$i]);
     }
 
     /**
