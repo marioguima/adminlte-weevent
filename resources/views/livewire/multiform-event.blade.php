@@ -422,11 +422,8 @@
                     <label>{{ trans('adminlte::weevent.name_the_offer') }}</label>
                   </div>
 
-                  {{-- healine --}}
-                  {{-- text_inside_the_button --}}
                   {{-- cta --}}
                   <div class="col-sm-6 text-center">
-                    {{-- <label>{{ trans('adminlte::weevent.offer_headline') }} & {{ trans('adminlte::weevent.text_inside_the_button') }}</label> --}}
                     <label>{{ trans('adminlte::weevent.cta') }}</label>
                   </div>
 
@@ -493,42 +490,38 @@
                   </div>
                 </div>
 
-                {{-- <div class="col-12">
-                  <button type="button" class="btn btn-orange btn-sm col-4 offset-4">@if($offer['text_inside_the_button'] == ''){{@trans('adminlte::weevent.text_inside_the_button_ph')}}@else{{$offer['text_inside_the_button']}}@endif</button>
-              </div> --}}
+                <hr class="mt-0 mb-3 p-0 col-sm-12 d-sm-none d-block">
+              </div>
 
-              <hr class="mt-0 mb-3 p-0 col-sm-12 d-sm-none d-block">
+              @endforeach
+
             </div>
-
-            @endforeach
-
+            <!-- /.card-body -->
           </div>
-          <!-- /.card-body -->
+        </div>
+
+        <div class="tab-pane fade @if ($step == 2) active show @endif" id="contact" role="tabpanel" aria-labelledby="schedules-tab">
+          <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro
+            fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone
+            skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings
+            gentrify squid 8-bit cred pitchfork. Williamsburg banh mi whatever gluten-free, carles pitchfork
+            biodiesel
+            fixie etsy retro mlkshk vice blog. Scenester cred you probably haven't heard of them, vinyl craft beer
+            blog stumptown. Pitchfork sustainable tofu synth chambray yr.</p>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col">
+          @if ($step <= 2) <button type="button" wire:click="next" class="btn btn-info float-right" @if($active_step_session['live'] !='' || count($stepsValidated['live']) <> 1) disabled @endif wire:loading.attr="disabled">Next</button>@endif
+            @if ($step > 0 && $step <= 2) <button type="button" wire:click="decreaseStep" class="btn btn-secondary mr-2 float-right" wire:loading.attr="disabled">Back</button>@endif
         </div>
       </div>
 
-      <div class="tab-pane fade @if ($step == 2) active show @endif" id="contact" role="tabpanel" aria-labelledby="schedules-tab">
-        <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro
-          fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone
-          skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings
-          gentrify squid 8-bit cred pitchfork. Williamsburg banh mi whatever gluten-free, carles pitchfork
-          biodiesel
-          fixie etsy retro mlkshk vice blog. Scenester cred you probably haven't heard of them, vinyl craft beer
-          blog stumptown. Pitchfork sustainable tofu synth chambray yr.</p>
-      </div>
+    </form>
 
   </div>
-
-  <div class="row">
-    <div class="col">
-      @if ($step <= 2) <button type="button" wire:click="next" class="btn btn-info float-right" @if($active_step_session['live'] !='' || count($stepsValidated['live']) <> 1) disabled @endif wire:loading.attr="disabled">Next</button>@endif
-        @if ($step > 0 && $step <= 2) <button type="button" wire:click="decreaseStep" class="btn btn-secondary mr-2 float-right" wire:loading.attr="disabled">Back</button>@endif
-    </div>
-  </div>
-
-  </form>
-
-</div>
 </div>
 
 @push('js')
