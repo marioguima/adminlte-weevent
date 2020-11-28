@@ -423,13 +423,11 @@
                   </div>
 
                   {{-- healine --}}
-                  <div class="col-sm-3">
-                    <label>{{ trans('adminlte::weevent.offer_headline') }}</label>
-                  </div>
-
                   {{-- text_inside_the_button --}}
-                  <div class="col-sm-3">
-                    <label>{{ trans('adminlte::weevent.text_inside_the_button') }}</label>
+                  {{-- cta --}}
+                  <div class="col-sm-6 text-center">
+                    {{-- <label>{{ trans('adminlte::weevent.offer_headline') }} & {{ trans('adminlte::weevent.text_inside_the_button') }}</label> --}}
+                    <label>{{ trans('adminlte::weevent.cta') }}</label>
                   </div>
 
                   {{-- button_link --}}
@@ -447,37 +445,25 @@
               {{-- offers --}}
               @foreach ($offers as $offer)
 
-              <div class="row mb-3" wire:key="post-field-{{ $loop->index }}">
+              <div class="row" wire:key="post-field-{{ $loop->index }}">
 
                 {{-- name --}}
                 <div class="col-4 d-block d-sm-none align-self-center">
                   <label>{{ trans('adminlte::weevent.name_the_offer') }}:</label>
                 </div>
-                <div class="col-8 col-sm-2">
-                  <div class="form-group">
+                <div class="col-8 col-sm-2 d-flex align-items-end">
+                  <div class="form-group w-100">
                     <input type="text" wire:model.defer="offers.{{ $loop->index }}.name" value="{{$offer['name']}}" class="form-control-sm w-100" placeholder="{{ @trans('adminlte::weevent.name_the_offer_ph') }} ...">
                     @error("offers.{$loop->index}.name")<small class="form-text text-danger">{{ $errors->first("offers.{$loop->index}.name") }}</small>@enderror
                   </div>
                 </div>
 
-                {{-- offer_headline --}}
-                <div class="col-4 d-block d-sm-none align-self-center">
-                  <label>{{ trans('adminlte::weevent.offer_headline') }}:</label>
-                </div>
-                <div class="col-8 col-sm-3">
-                  <div class="form-group">
-                    <input type="text" wire:model.defer="offers.{{ $loop->index }}.headline" value="{{$offer['headline']}}" class="form-control-sm w-100" placeholder="{{ @trans('adminlte::weevent.offer_headline_ph') }} ...">
-                    @error("offers.{$loop->index}.headline")<small class="form-text text-danger">{{ $errors->first("offers.{$loop->index}.headline") }}</small>@enderror
-                  </div>
-                </div>
-
                 {{-- text_inside_the_button --}}
-                <div class="col-4 d-block d-sm-none align-self-center">
-                  <label>{{ trans('adminlte::weevent.text_inside_the_button') }}:</label>
-                </div>
-                <div class="col-8 col-sm-3">
+                <div class="col-12 col-sm-6">
                   <div class="form-group">
-                    <input type="text" wire:model.defer="offers.{{ $loop->index }}.text_inside_the_button" value="{{$offer['text_inside_the_button']}}" class="form-control-sm w-100 btn-orange text-center placeholder-white" placeholder="{{ @trans('adminlte::weevent.example') }}: {{ @trans('adminlte::weevent.text_inside_the_button_ph') }} ...">
+                    @error("offers.{$loop->index}.headline")<small class="form-text text-danger">{{ $errors->first("offers.{$loop->index}.headline") }}</small>@enderror
+                    <input type="text" wire:model.defer="offers.{{ $loop->index }}.headline" value="{{$offer['headline']}}" class="form-control-sm w-100 text-center border-right-0 border-left-0" placeholder="{{ @trans('adminlte::weevent.offer_headline_ph') }} ...">
+                    <input type="text" wire:model.defer="offers.{{ $loop->index }}.text_inside_the_button" value="{{$offer['text_inside_the_button']}}" class="form-control-lg w-100 btn-orange text-center placeholder-white" placeholder="{{ @trans('adminlte::weevent.example') }}: {{ @trans('adminlte::weevent.text_inside_the_button_ph') }} ...">
                     @error("offers.{$loop->index}.text_inside_the_button")<small class="form-text text-danger">{{ $errors->first("offers.{$loop->index}.text_inside_the_button") }}</small>@enderror
                   </div>
                 </div>
@@ -486,8 +472,8 @@
                 <div class="col-4 d-block d-sm-none align-self-center">
                   <label>{{ trans('adminlte::weevent.button_link') }}:</label>
                 </div>
-                <div class="col-8 col-sm-3">
-                  <div class="form-group">
+                <div class="col-8 col-sm-3 d-flex align-items-end">
+                  <div class="form-group w-100">
                     <input type="text" wire:model.defer="offers.{{ $loop->index }}.button_link" value="{{$offer['button_link']}}" class="form-control-sm w-100" placeholder="{{ @trans('adminlte::weevent.button_link_ph') }} ...">
                     @error("offers.{$loop->index}.button_link")<small class="form-text text-danger">{{ $errors->first("offers.{$loop->index}.button_link") }}</small>@enderror
                   </div>
