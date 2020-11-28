@@ -477,12 +477,12 @@
                 </div>
 
                 {{-- actions --}}
-                <div class="col-1 col-sm-1 ml-auto">
-                  <div class="row justify-content-md-center">
-                    <div class="col-3">
+                <div class="col-2 col-sm-1 mb-2 mb-sm-0 ml-auto d-sm-flex align-items-center">
+                  <div class="row justify-content-end justify-content-md-center w-100">
+                    <div class="col-4">
                       <a href="#" wire:click.prevent="addOffer()" class="btn p-0 btn-tool" wire:loading.class="disabled"><i class="fal fa-plus"></i></a>
                     </div>
-                    <div class="col-3">
+                    <div class="col-4">
                       @if ($loop->index > 0)
                       <a href="#" wire:click.prevent="removeOffer({{ $loop->index }})" class="btn p-0 btn-tool" wire:loading.class="disabled"><i class="fal fa-minus"></i></a>
                       @endif
